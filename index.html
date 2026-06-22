@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Alto Custo — Rastreamento</title>
+<link rel="manifest" href="data:application/json,{%22name%22:%22Alto%20Custo%22,%22display%22:%22standalone%22}">
+<style>
+  :root{
+    --navy:#1f3864; --blue:#2e5496; --teal:#0d9488; --bg:#f4f6fb; --card:#ffffff;
+    --ink:#16223a; --mut:#64748b; --line:#e3e8f0;
+    --red:#dc2626; --redbg:#fee2e2; --amber:#b45309; --amberbg:#fef3c7;
+    --green:#15803d; --greenbg:#dcfce7; --greybg:#eef2f7;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
+  .hidden{display:none!important}
+  /* top bar */
+  header{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;
+    padding:max(12px,env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px}
+  header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.2px;flex:1}
+  header small{display:block;font-weight:400;opacity:.75;font-size:11px}
+  .iconbtn{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:9px;
+    padding:8px 10px;font-size:13px;font-weight:600}
+  /* counts */
+  .counts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px 4px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+  .stat b{display:block;font-size:20px;line-height:1.1}
+  .stat span{font-size:10.5px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+  .stat.alert b{color:var(--red)} .stat.alert{background:var(--redbg);border-color:#fca5a5}
+  /* filter chips */
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{white-space:nowrap;border:1px solid var(--line);background:#fff;color:var(--mut);
+    border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600}
+  .chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .search{padding:0 14px 4px}
+  .search input{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:15px}
+  /* list */
+  main{padding:6px 14px 110px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
+    margin-bottom:10px;box-shadow:0 1px 2px rgba(20,34,58,.04)}
+  .card .row1{display:flex;align-items:center;gap:8px}
+  .card .pac{font-weight:700;font-size:15.5px;flex:1}
+  .card .meta{color:var(--mut);font-size:12.5px;margin-top:3px}
+  .card .meds{font-size:13px;margin-top:6px;color:#334155}
+  .badge{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
+  .b-Protocolado{background:var(--greybg);color:#475569}
+  .b-Em\.análise,.b-analise{background:#e0ecff;color:var(--blue)}
+  .b-Liberado{background:#ccfbf1;color:var(--teal)}
+  .b-Pendente{background:var(--redbg);color:var(--red)}
+  .b-Retirado{background:var(--amberbg);color:var(--amber)}
+  .b-Entregue{background:var(--greenbg);color:var(--green)}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:7px;margin-top:8px;margin-right:6px}
+  .pill.pend{background:var(--redbg);color:var(--red)}
+  .pill.ok{background:var(--greenbg);color:var(--green)}
+  .pill.wait{background:var(--amberbg);color:var(--amber)}
+  /* FAB */
+  .fab{position:fixed;right:16px;bottom:max(18px,env(safe-area-inset-bottom));z-index:30;
+    background:var(--teal);color:#fff;border:0;border-radius:16px;padding:15px 18px;font-size:15px;font-weight:700;
+    box-shadow:0 6px 18px rgba(13,148,136,.4)}
+  /* sheet/modal */
+  .scrim{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;display:flex;align-items:flex-end}
+  .sheet{background:#fff;width:100%;max-height:94vh;border-radius:20px 20px 0 0;overflow-y:auto;
+    padding:6px 16px calc(24px + env(safe-area-inset-bottom))}
+  .grab{width:42px;height:5px;background:#cbd5e1;border-radius:3px;margin:10px auto 8px}
+  .sheet h2{font-size:17px;margin:4px 0 2px}
+  .seclabel{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--navy);
+    margin:18px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--line)}
+  label.fld{display:block;margin-bottom:11px}
+  label.fld span{display:block;font-size:12.5px;color:var(--mut);font-weight:600;margin-bottom:4px}
+  input,select,textarea{font-family:inherit;font-size:15px;width:100%;padding:11px 12px;
+    border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
+  textarea{min-height:62px;resize:vertical}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{width:100%;border:0;border-radius:13px;padding:14px;font-size:15.5px;font-weight:700;margin-top:8px}
+  .btn.primary{background:var(--navy);color:#fff}
+  .btn.teal{background:var(--teal);color:#fff}
+  .btn.ghost{background:var(--greybg);color:var(--navy)}
+  .btn.danger{background:#fff;color:var(--red);border:1px solid #fca5a5}
+  /* signature */
+  .sigwrap{border:1px dashed #94a3b8;border-radius:12px;background:#fafcff;position:relative}
+  canvas#sig{width:100%;height:160px;display:block;touch-action:none;border-radius:12px}
+  .sighint{position:absolute;top:8px;left:12px;color:#94a3b8;font-size:12px;pointer-events:none}
+  .sigsaved{font-size:12px;color:var(--green);font-weight:700;margin-top:6px}
+  /* login */
+  .login{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:28px 22px;
+    background:linear-gradient(160deg,#1f3864,#2e5496)}
+  .login .box{background:#fff;border-radius:18px;padding:24px 20px;max-width:420px;width:100%;margin:0 auto}
+  .login h1{margin:0 0 2px;font-size:20px;color:var(--navy)}
+  .login p{margin:0 0 18px;color:var(--mut);font-size:13px}
+  .err{background:var(--redbg);color:var(--red);border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;margin-top:10px}
+  .empty{text-align:center;color:var(--mut);padding:50px 20px;font-size:14px}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#0f172a;color:#fff;
+    padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:60;opacity:0;transition:.25s;pointer-events:none}
+  .toast.show{opacity:1}
+  .banner{background:var(--amberbg);color:var(--amber);font-size:12.5px;font-weight:600;
+    padding:9px 14px;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- ====== CONFIG: cole aqui os dados do projeto Supabase NOVO ====== -->
+<script>
+  const SUPABASE_URL  = "https://rtaiuhhedyqcmhwtdtlj.supabase.co";  // projeto rb-alto-custo
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0YWl1aGhlZHlxY21od3RkdGxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjUwMzEsImV4cCI6MjA5Nzc0MTAzMX0.zWkZNV5s7nrpmxvvPZjIo7y5m3_krI6SJR-nnmnhNlA";
+</script>
+
+<!-- LOGIN -->
+<section id="login" class="login">
+  <div class="box">
+    <h1>Farmácia de Alto Custo</h1>
+    <p>Rastreamento de medicações — Renal Brasil</p>
+    <label class="fld"><span>E-mail</span><input id="email" type="email" autocomplete="username" inputmode="email"></label>
+    <label class="fld"><span>Senha</span><input id="pass" type="password" autocomplete="current-password"></label>
+    <button class="btn primary" id="loginBtn">Entrar</button>
+    <div id="loginErr" class="err hidden"></div>
+  </div>
+</section>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <header>
+    <div style="flex:1">
+      <h1>Alto Custo <small id="who"></small></h1>
+    </div>
+    <button class="iconbtn" id="reloadBtn">↻</button>
+    <button class="iconbtn" id="logoutBtn">Sair</button>
+  </header>
+  <div id="cfgWarn" class="banner hidden">⚠ Configure SUPABASE_URL e ANON_KEY no index.html</div>
+
+  <div class="counts" id="counts"></div>
+
+  <div class="chips" id="chips"></div>
+  <div class="search"><input id="q" placeholder="Buscar paciente ou nº do processo…"></div>
+
+  <main id="list"></main>
+  <button class="fab" id="newBtn">＋ Novo</button>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const STATUSES = ["Protocolado","Em análise","Liberado","Pendente","Retirado","Entregue"];
+const RESP = ["Assist. Social","Farmácia","Médico","Paciente"];
+const CONF = ["Não conferido","OK","Divergência"];
+let sb=null, rows=[], filter="Todos", search="", editing=null;
+
+function esc(s){return (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1900);}
+function fmt(d){if(!d)return"—";const[y,m,da]=d.split("-");return`${da}/${m}/${y}`;}
+function today(){return new Date().toISOString().slice(0,10);}
+
+// ---------- INIT ----------
+function configured(){return SUPABASE_URL && !SUPABASE_URL.includes("COLE_") && SUPABASE_ANON && !SUPABASE_ANON.includes("COLE_");}
+if(configured()){
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  sb.auth.getSession().then(({data})=>{ if(data.session) showApp(data.session); });
+}else{
+  document.getElementById("cfgWarn").classList.remove("hidden");
+}
+
+document.getElementById("loginBtn").onclick = async ()=>{
+  const err=document.getElementById("loginErr"); err.classList.add("hidden");
+  if(!configured()){err.textContent="App ainda não configurado (URL/chave do Supabase).";err.classList.remove("hidden");return;}
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("pass").value;
+  const {data,error}=await sb.auth.signInWithPassword({email,password});
+  if(error){err.textContent="Não foi possível entrar: "+error.message;err.classList.remove("hidden");return;}
+  showApp(data.session);
+};
+document.getElementById("logoutBtn").onclick = async ()=>{ await sb.auth.signOut(); location.reload(); };
+document.getElementById("reloadBtn").onclick = load;
+document.getElementById("newBtn").onclick = ()=>openForm(null);
+document.getElementById("q").addEventListener("input",e=>{search=e.target.value.toLowerCase();render();});
+
+function showApp(session){
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("who").textContent = "· "+(session.user.email||"");
+  buildChips();
+  load();
+}
+
+async function load(){
+  const {data,error}=await sb.from("processos").select("*").order("created_at",{ascending:false});
+  if(error){toast("Erro ao carregar: "+error.message);return;}
+  rows=data||[]; render();
+}
+
+// ---------- COUNTS + CHIPS ----------
+function counts(){
+  const c={total:rows.length};
+  STATUSES.forEach(s=>c[s]=rows.filter(r=>r.status===s).length);
+  c.pendAbertas = rows.filter(r=>r.pendencia && !r.data_resolucao).length;
+  c.divChegada  = rows.filter(r=>r.conf_chegada==="Divergência").length;
+  c.semAssin    = rows.filter(r=>r.conf_chegada==="OK" && !r.assinatura).length;
+  return c;
+}
+function renderCounts(){
+  const c=counts();
+  const cards=[
+    ["Total",c.total,false],["Liberados",c.Liberado,false],["Em análise",c["Em análise"],false],
+    ["Pendências",c.pendAbertas,c.pendAbertas>0],["Divergências",c.divChegada,c.divChegada>0],["Entregues",c.Entregue,false],
+  ];
+  document.getElementById("counts").innerHTML=cards.map(([l,n,a])=>
+    `<div class="stat${a?' alert':''}"><b>${n}</b><span>${l}</span></div>`).join("");
+}
+function buildChips(){
+  const opts=["Todos","Pendentes","Aguardando retirada","A conferir na chegada","Em análise","Entregues"];
+  document.getElementById("chips").innerHTML=opts.map(o=>
+    `<button class="chip${o===filter?' on':''}" data-f="${o}">${o}</button>`).join("");
+  document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+    filter=b.dataset.f; buildChips(); render();
+  });
+}
+
+// ---------- RENDER LIST ----------
+function matchesFilter(r){
+  switch(filter){
+    case "Pendentes": return r.pendencia && !r.data_resolucao || r.status==="Pendente";
+    case "Aguardando retirada": return r.status==="Liberado";
+    case "A conferir na chegada": return r.status==="Retirado" && r.conf_chegada!=="OK";
+    case "Em análise": return r.status==="Em análise" || r.status==="Protocolado";
+    case "Entregues": return r.status==="Entregue";
+    default: return true;
+  }
+}
+function render(){
+  renderCounts();
+  let list=rows.filter(matchesFilter);
+  if(search){list=list.filter(r=>(r.paciente||"").toLowerCase().includes(search)||(r.num_processo||"").toLowerCase().includes(search));}
+  const el=document.getElementById("list");
+  if(!list.length){el.innerHTML=`<div class="empty">Nenhum processo aqui.<br>Toque em <b>＋ Novo</b> para começar.</div>`;return;}
+  el.innerHTML=list.map(r=>{
+    const pills=[];
+    if(r.pendencia&&!r.data_resolucao)pills.push(`<span class="pill pend">⚠ ${esc(r.pendencia_desc||"Pendência")}</span>`);
+    if(r.conf_chegada==="Divergência")pills.push(`<span class="pill pend">Divergência na chegada</span>`);
+    if(r.conf_chegada==="OK"&&!r.assinatura)pills.push(`<span class="pill wait">Falta assinatura</span>`);
+    if(r.status==="Entregue"&&r.assinatura)pills.push(`<span class="pill ok">✔ Conferido e assinado</span>`);
+    const bcls="b-"+(r.status==="Em análise"?"analise":r.status);
+    return `<div class="card" data-id="${r.id}">
+      <div class="row1"><div class="pac">${esc(r.paciente||"—")}</div>
+        <span class="badge ${bcls}">${esc(r.status)}</span></div>
+      <div class="meta">Proc. ${esc(r.num_processo||"—")} · CID ${esc(r.cid||"—")} · prev. retirada ${fmt(r.previsao_retirada)}</div>
+      <div class="meds">${esc(r.medicamentos||"")}</div>
+      ${pills.join("")}
+    </div>`;
+  }).join("");
+  document.querySelectorAll(".card").forEach(c=>c.onclick=()=>openForm(c.dataset.id));
+}
+
+// ---------- FORM (sheet) ----------
+function openForm(id){
+  editing = id ? rows.find(r=>r.id===id) : null;
+  const r = editing || {status:"Protocolado",data_protocolo:today(),conf_farmacia:"Não conferido",conf_chegada:"Não conferido"};
+  const opt=(arr,v)=>arr.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("");
+  const scrim=document.createElement("div");scrim.className="scrim";
+  scrim.innerHTML=`<div class="sheet" id="sheet">
+    <div class="grab"></div>
+    <h2>${id?"Editar processo":"Novo processo"}</h2>
+
+    <div class="seclabel">Dados do processo</div>
+    <div class="two">
+      <label class="fld"><span>Nº processo</span><input id="f_num" value="${esc(r.num_processo)}"></label>
+      <label class="fld"><span>CID</span><input id="f_cid" value="${esc(r.cid)}"></label>
+    </div>
+    <label class="fld"><span>Paciente *</span><input id="f_pac" value="${esc(r.paciente)}"></label>
+    <label class="fld"><span>Medicamento(s)</span><textarea id="f_med">${esc(r.medicamentos)}</textarea></label>
+    <div class="two">
+      <label class="fld"><span>Data protocolo</span><input id="f_prot" type="date" value="${r.data_protocolo||""}"></label>
+      <label class="fld"><span>Status</span><select id="f_status">${opt(STATUSES,r.status)}</select></label>
+    </div>
+
+    <div class="seclabel">Pendência</div>
+    <label class="fld"><span>Tem pendência?</span>
+      <select id="f_pend"><option ${!r.pendencia?"selected":""} value="0">Não</option><option ${r.pendencia?"selected":""} value="1">Sim</option></select></label>
+    <label class="fld"><span>Qual a pendência</span><input id="f_pdesc" value="${esc(r.pendencia_desc)}" placeholder="ex.: falta assinatura no laudo"></label>
+    <div class="two">
+      <label class="fld"><span>Responsável</span><select id="f_resp"><option value="">—</option>${opt(RESP,r.responsavel)}</select></label>
+      <label class="fld"><span>Resolvida em</span><input id="f_pres" type="date" value="${r.data_resolucao||""}"></label>
+    </div>
+
+    <div class="seclabel">1ª conferência — na farmácia (transportador)</div>
+    <div class="two">
+      <label class="fld"><span>Data retirada</span><input id="f_ret" type="date" value="${r.data_retirada||""}"></label>
+      <label class="fld"><span>Conferência</span><select id="f_cfarm">${opt(CONF,r.conf_farmacia)}</select></label>
+    </div>
+    <label class="fld"><span>Conferente (quem retirou)</span><input id="f_cfn" value="${esc(r.conferente_farmacia)}"></label>
+
+    <div class="seclabel">2ª conferência — chegada na clínica (recebedor)</div>
+    <div class="two">
+      <label class="fld"><span>Data entrega</span><input id="f_ent" type="date" value="${r.data_entrega||""}"></label>
+      <label class="fld"><span>Conferência</span><select id="f_cche">${opt(CONF,r.conf_chegada)}</select></label>
+    </div>
+    <label class="fld"><span>Recebedor da clínica *</span><input id="f_rec" value="${esc(r.recebedor_clinica)}" placeholder="nome de quem recebeu"></label>
+    <label class="fld"><span>Assinatura do recebedor</span></label>
+    <div class="sigwrap"><canvas id="sig"></canvas><span class="sighint" id="sighint">assine com o dedo aqui</span></div>
+    <div id="sigsaved" class="sigsaved ${r.assinatura?'':'hidden'}">✔ Assinatura registrada</div>
+    <button class="btn ghost" id="sigClear" type="button" style="margin-top:6px">Limpar assinatura</button>
+
+    <label class="fld" style="margin-top:14px"><span>Observações</span><textarea id="f_obs">${esc(r.obs)}</textarea></label>
+
+    <button class="btn teal" id="saveBtn">${id?"Salvar alterações":"Criar processo"}</button>
+    ${id?'<button class="btn danger" id="delBtn">Excluir processo</button>':''}
+    <button class="btn ghost" id="closeBtn">Cancelar</button>
+  </div>`;
+  document.body.appendChild(scrim);
+  scrim.addEventListener("click",e=>{if(e.target===scrim)scrim.remove();});
+  document.getElementById("closeBtn").onclick=()=>scrim.remove();
+  initSig(r.assinatura);
+  document.getElementById("saveBtn").onclick=()=>save(scrim);
+  if(id)document.getElementById("delBtn").onclick=()=>del(id,scrim);
+}
+
+// ---------- SIGNATURE PAD ----------
+let sigCtx=null, sigDirty=false, sigData=null;
+function initSig(existing){
+  const cv=document.getElementById("sig"); const hint=document.getElementById("sighint");
+  const ratio=window.devicePixelRatio||1;
+  const w=cv.clientWidth||300, h=160;
+  cv.width=w*ratio; cv.height=h*ratio;
+  sigCtx=cv.getContext("2d"); sigCtx.scale(ratio,ratio);
+  sigCtx.lineWidth=2.2; sigCtx.lineCap="round"; sigCtx.strokeStyle="#16223a";
+  sigDirty=false; sigData = existing||null;
+  if(existing){const img=new Image();img.onload=()=>sigCtx.drawImage(img,0,0,w,h);img.src=existing;hint.style.display="none";}
+  let drawing=false,last=null;
+  const pos=e=>{const r=cv.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top};};
+  const start=e=>{drawing=true;last=pos(e);hint.style.display="none";e.preventDefault();};
+  const move=e=>{if(!drawing)return;const p=pos(e);sigCtx.beginPath();sigCtx.moveTo(last.x,last.y);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();last=p;sigDirty=true;e.preventDefault();};
+  const end=()=>{if(drawing&&sigDirty){sigData=cv.toDataURL("image/png");}drawing=false;};
+  cv.addEventListener("touchstart",start);cv.addEventListener("touchmove",move);cv.addEventListener("touchend",end);
+  cv.addEventListener("mousedown",start);cv.addEventListener("mousemove",move);window.addEventListener("mouseup",end);
+  document.getElementById("sigClear").onclick=()=>{sigCtx.clearRect(0,0,cv.width,cv.height);sigData=null;sigDirty=false;hint.style.display="block";document.getElementById("sigsaved").classList.add("hidden");};
+}
+
+// ---------- SAVE / DELETE ----------
+async function save(scrim){
+  const v=id=>document.getElementById(id).value.trim();
+  const pac=v("f_pac"); if(!pac){toast("Informe o paciente");return;}
+  const cche=document.getElementById("f_cche").value;
+  if(cche==="OK" && !sigData){toast("Conferência OK exige assinatura do recebedor");return;}
+  if(cche==="OK" && !v("f_rec")){toast("Informe o recebedor da clínica");return;}
+  const rec={
+    num_processo:v("f_num")||null, paciente:pac, cid:v("f_cid")||null, medicamentos:v("f_med")||null,
+    data_protocolo:v("f_prot")||null, status:document.getElementById("f_status").value,
+    pendencia:document.getElementById("f_pend").value==="1",
+    pendencia_desc:v("f_pdesc")||null, responsavel:document.getElementById("f_resp").value||null,
+    data_resolucao:v("f_pres")||null,
+    data_retirada:v("f_ret")||null, conf_farmacia:document.getElementById("f_cfarm").value, conferente_farmacia:v("f_cfn")||null,
+    data_entrega:v("f_ent")||null, conf_chegada:cche, recebedor_clinica:v("f_rec")||null,
+    assinatura:sigData||null, obs:v("f_obs")||null,
+  };
+  if(rec.assinatura && (!editing || editing.assinatura!==rec.assinatura)) rec.assinatura_em=new Date().toISOString();
+  let res;
+  if(editing) res=await sb.from("processos").update(rec).eq("id",editing.id);
+  else res=await sb.from("processos").insert(rec);
+  if(res.error){toast("Erro ao salvar: "+res.error.message);return;}
+  scrim.remove(); toast("Salvo ✔"); load();
+}
+async function del(id,scrim){
+  if(!confirm("Excluir este processo? Não dá para desfazer."))return;
+  const {error}=await sb.from("processos").delete().eq("id",id);
+  if(error){toast("Erro: "+error.message);return;}
+  scrim.remove();toast("Excluído");load();
+}
+</script>
+</body>
+</html>
