@@ -6,24 +6,19 @@
 <title>Alto Custo — Rastreamento</title>
 <link rel="manifest" href="data:application/json,{%22name%22:%22Alto%20Custo%22,%22display%22:%22standalone%22}">
 <style>
-  :root{
-    --navy:#1f3864; --blue:#2e5496; --teal:#0d9488; --bg:#f4f6fb; --card:#ffffff;
-    --ink:#16223a; --mut:#64748b; --line:#e3e8f0;
-    --red:#dc2626; --redbg:#fee2e2; --amber:#b45309; --amberbg:#fef3c7;
-    --green:#15803d; --greenbg:#dcfce7; --greybg:#eef2f7;
-  }
+  :root{--navy:#1f3864;--blue:#2e5496;--teal:#0d9488;--bg:#f4f6fb;--card:#fff;--ink:#16223a;--mut:#64748b;--line:#e3e8f0;--red:#dc2626;--redbg:#fee2e2;--amber:#b45309;--amberbg:#fef3c7;--green:#15803d;--greenbg:#dcfce7;--greybg:#eef2f7}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
   .hidden{display:none!important}
   header{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:max(12px,env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px}
-  header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.2px;flex:1}
+  header h1{font-size:16px;margin:0;font-weight:700;flex:1}
   header small{display:block;font-weight:400;opacity:.75;font-size:11px}
   .iconbtn{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:600}
   .counts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 14px 4px}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center}
   .stat b{display:block;font-size:20px;line-height:1.1}
-  .stat span{font-size:9.5px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.2px}
+  .stat span{font-size:9.5px;color:var(--mut);font-weight:600;text-transform:uppercase}
   .stat.alert b{color:var(--red)} .stat.alert{background:var(--redbg);border-color:#fca5a5}
   .chips{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;scrollbar-width:none}
   .chips::-webkit-scrollbar{display:none}
@@ -38,34 +33,31 @@
   .cardright{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
   .datebadge{font-size:11px;font-weight:700;color:#475569;background:var(--greybg);padding:4px 9px;border-radius:999px;white-space:nowrap}
   .cibtn{background:var(--teal);color:#fff;border:0;border-radius:9px;padding:7px 11px;font-size:12px;font-weight:700;white-space:nowrap}
-  .cibtn.out{background:var(--blue)}
+  .cibtn.out{background:var(--blue)} .cibtn.clin{background:var(--green)}
   .badge{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
   .b-Pendente{background:var(--redbg);color:var(--red)}
   .b-Entregue{background:var(--greenbg);color:var(--green)}
   .b-aguardando{background:var(--amberbg);color:var(--amber)}
+  .b-conf{background:#e0ecff;color:var(--blue)}
   .card .meta{color:var(--mut);font-size:12px;margin-top:5px}
   .mi{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
   .mi:first-of-type{border-top:0}
   .mi-n{font-size:13px;color:#334155}
   .mi-s{font-size:11.5px;font-weight:700;margin-top:2px}
-  .mi-s.ok{color:var(--green)} .mi-s.pend{color:var(--red)} .mi-s.wait{color:var(--mut)} .mi-s.ag{color:var(--amber)}
+  .mi-s.ok{color:var(--green)} .mi-s.pend{color:var(--red)} .mi-s.wait{color:var(--mut)} .mi-s.ag{color:var(--amber)} .mi-s.bl{color:var(--blue)}
   .fab{position:fixed;right:16px;bottom:max(18px,env(safe-area-inset-bottom));z-index:30;background:var(--teal);color:#fff;border:0;border-radius:16px;padding:15px 18px;font-size:15px;font-weight:700;box-shadow:0 6px 18px rgba(13,148,136,.4)}
   .scrim{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;display:flex;align-items:flex-end}
   .sheet{background:#fff;width:100%;max-height:94vh;border-radius:20px 20px 0 0;overflow-y:auto;padding:6px 16px calc(24px + env(safe-area-inset-bottom))}
   .grab{width:42px;height:5px;background:#cbd5e1;border-radius:3px;margin:10px auto 8px}
   .sheet h2{font-size:17px;margin:4px 0 2px}
   .sheet .sub{color:var(--mut);font-size:13px;margin:0 0 6px}
-  .seclabel{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--navy);margin:18px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--line)}
+  .seclabel{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--navy);margin:16px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--line)}
   label.fld{display:block;margin-bottom:11px}
   label.fld span{display:block;font-size:12.5px;color:var(--mut);font-weight:600;margin-bottom:4px}
   input,select,textarea{font-family:inherit;font-size:15px;width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
   textarea{min-height:62px;resize:vertical}
   .btn{width:100%;border:0;border-radius:13px;padding:14px;font-size:15.5px;font-weight:700;margin-top:8px}
-  .btn.primary{background:var(--navy);color:#fff}
-  .btn.teal{background:var(--teal);color:#fff}
-  .btn.blue{background:var(--blue);color:#fff}
-  .btn.ghost{background:var(--greybg);color:var(--navy)}
-  .btn.danger{background:#fff;color:var(--red);border:1px solid #fca5a5}
+  .btn.primary{background:var(--navy);color:#fff} .btn.teal{background:var(--teal);color:#fff} .btn.blue{background:var(--blue);color:#fff} .btn.green{background:var(--green);color:#fff} .btn.ghost{background:var(--greybg);color:var(--navy)} .btn.danger{background:#fff;color:var(--red);border:1px solid #fca5a5}
   .imp{border:1.5px dashed var(--teal);background:#f0fdfa;border-radius:13px;padding:14px;text-align:center;margin:8px 0 2px}
   .imp p{margin:0 0 4px;font-size:13px;color:#0f766e;font-weight:600}
   .imp small{color:var(--mut);font-weight:400;font-size:11.5px}
@@ -86,6 +78,8 @@
   .chk input{width:20px;height:20px;flex:0 0 auto}
   .clog{font-size:11.5px;color:var(--mut);margin-top:8px;background:var(--greybg);border-radius:8px;padding:7px 9px}
   .clog div{margin-bottom:2px}
+  .tl{font-size:12px;margin-top:3px}
+  .tl b{color:var(--ink)}
   .noent{font-size:12px;color:var(--red);font-weight:600;margin:6px 0}
   .login{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:28px 22px;background:linear-gradient(160deg,#1f3864,#2e5496)}
   .login .box{background:#fff;border-radius:18px;padding:24px 20px;max-width:420px;width:100%;margin:0 auto}
@@ -136,87 +130,74 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 if(window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-let sb=null, rows=[], filter="Todos", search="", editing=null;
+let sb=null, rows=[], filter="Todos", search="";
 
 function esc(s){return (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200);}
 function fmt(d){if(!d)return"—";const p=String(d).slice(0,10).split("-");return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:d;}
 function today(){return new Date().toISOString().slice(0,10);}
 
-// item: {nome, qtd_prev, entrada(t/f/null), entrada_motivo, entrada_data, recebido(t/null), qtd_receb, receb_data, comentarios:[{txt,em}]}
+// item: nome, qtd_prev, entrada(t/f/null), entrada_motivo, entrada_data,
+//       recebido(t/null), qtd_receb, receb_data, clinica(t/f/null), clinica_obs, clinica_data, comentarios[]
 function itensDe(r){
   let arr=(Array.isArray(r.itens)&&r.itens.length)?r.itens
     :(r.medicamentos||"").split("\n").map(s=>s.trim()).filter(Boolean).map(n=>({nome:n}));
   return arr.map(it=>{
-    const nome=it.nome||"";
-    const qm=nome.match(/(\d+)\s*\/\s*m[eê]s/i);
+    const nome=it.nome||"";const qm=nome.match(/(\d+)\s*\/\s*m[eê]s/i);
     return {
-      nome,
-      qtd_prev: it.qtd_prev!=null?it.qtd_prev:(qm?qm[1]:null),
-      entrada: (it.entrada===true||it.entrada===false)?it.entrada:(it.entregue===true?true:(it.entregue===false?false:null)),
-      entrada_motivo: it.entrada_motivo||(it.entregue===false?(it.problema||""):"")||"",
-      entrada_data: it.entrada_data||null,
-      recebido: (it.recebido===true)?true:(it.entregue===true?true:null),
-      qtd_receb: it.qtd_receb!=null?it.qtd_receb:null,
-      receb_data: it.receb_data||it.data_retirada||null,
+      nome, qtd_prev: it.qtd_prev!=null?it.qtd_prev:(qm?qm[1]:null),
+      entrada:(it.entrada===true||it.entrada===false)?it.entrada:(it.entregue===true?true:(it.entregue===false?false:null)),
+      entrada_motivo: it.entrada_motivo||"", entrada_data: it.entrada_data||null,
+      recebido: it.recebido===true?true:(it.entregue===true?true:null),
+      qtd_receb: it.qtd_receb!=null?it.qtd_receb:null, receb_data: it.receb_data||it.data_retirada||null,
+      clinica:(it.clinica===true||it.clinica===false)?it.clinica:null,
+      clinica_obs: it.clinica_obs||"", clinica_data: it.clinica_data||null,
       comentarios: Array.isArray(it.comentarios)?it.comentarios:(it.problema?[{txt:it.problema,em:null}]:[])
     };
   });
 }
-function statusDe(itens){
-  if(!itens.length)return "Protocolado";
-  if(itens.every(i=>i.recebido===true))return "Entregue";
-  if(itens.some(i=>i.entrada===false))return "Pendente";
-  if(itens.some(i=>i.entrada===true&&i.recebido!==true))return "Aguardando retirada";
-  if(itens.every(i=>i.entrada==null))return "Protocolado";
-  return "Pendente";
+function statusDe(its){
+  if(!its.length)return "Protocolado";
+  if(its.some(i=>i.entrada===false))return "Pendente";
+  if(its.some(i=>i.entrada==null))return "Protocolado";
+  if(its.some(i=>i.recebido!==true))return "Aguardando retirada";
+  if(its.some(i=>i.clinica===false))return "Pendente";
+  if(its.some(i=>i.clinica==null))return "Aguardando conferência";
+  return "Entregue";
 }
 function stOf(r){return statusDe(itensDe(r));}
-function needCheckin(its){return its.some(i=>i.entrada!==true);}      // null ou não teve entrada
+function needCheckin(its){return its.some(i=>i.entrada!==true);}
 function needCheckout(its){return its.some(i=>i.entrada===true&&i.recebido!==true);}
+function needEntrega(its){return its.some(i=>i.recebido===true&&i.clinica!==true);}
 
-// ---------- INIT / LOGIN ----------
+// ---------- LOGIN ----------
 function configured(){return SUPABASE_URL && !SUPABASE_URL.includes("COLE_") && SUPABASE_ANON && !SUPABASE_ANON.includes("COLE_");}
-if(configured()){
-  sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-  sb.auth.getSession().then(({data})=>{ if(data.session) showApp(data.session); });
-}else{ document.getElementById("cfgWarn").classList.remove("hidden"); }
-
-document.getElementById("loginBtn").onclick = async ()=>{
-  const err=document.getElementById("loginErr"); err.classList.add("hidden");
+if(configured()){ sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON); sb.auth.getSession().then(({data})=>{if(data.session)showApp(data.session);}); }
+else{ document.getElementById("cfgWarn").classList.remove("hidden"); }
+document.getElementById("loginBtn").onclick=async()=>{
+  const err=document.getElementById("loginErr");err.classList.add("hidden");
   if(!configured()){err.textContent="App ainda não configurado.";err.classList.remove("hidden");return;}
   const {data,error}=await sb.auth.signInWithPassword({email:document.getElementById("email").value.trim(),password:document.getElementById("pass").value});
   if(error){err.textContent="Não foi possível entrar: "+error.message;err.classList.remove("hidden");return;}
   showApp(data.session);
 };
-document.getElementById("logoutBtn").onclick = async ()=>{ await sb.auth.signOut(); location.reload(); };
-document.getElementById("reloadBtn").onclick = load;
-document.getElementById("newBtn").onclick = ()=>openForm(null);
+document.getElementById("logoutBtn").onclick=async()=>{await sb.auth.signOut();location.reload();};
+document.getElementById("reloadBtn").onclick=load;
+document.getElementById("newBtn").onclick=()=>openForm();
 document.getElementById("q").addEventListener("input",e=>{search=e.target.value.toLowerCase();render();});
-
-function showApp(session){
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  document.getElementById("who").textContent = "· "+(session.user.email||"");
-  buildChips(); load();
-}
-async function load(){
-  const {data,error}=await sb.from("processos").select("*").order("created_at",{ascending:false});
-  if(error){toast("Erro ao carregar: "+error.message);return;}
-  rows=data||[]; render();
-}
+function showApp(s){document.getElementById("login").classList.add("hidden");document.getElementById("app").classList.remove("hidden");document.getElementById("who").textContent="· "+(s.user.email||"");buildChips();load();}
+async function load(){const {data,error}=await sb.from("processos").select("*").order("created_at",{ascending:false});if(error){toast("Erro ao carregar: "+error.message);return;}rows=data||[];render();}
 
 // ---------- COUNTS + CHIPS ----------
 function renderCounts(){
-  const total=rows.length;
   const ent=rows.filter(r=>stOf(r)!=="Entregue"&&needCheckin(itensDe(r))).length;
   const ret=rows.filter(r=>needCheckout(itensDe(r))).length;
-  const entreg=rows.filter(r=>stOf(r)==="Entregue").length;
-  const cards=[["Total",total,false],["Entrada",ent,false],["Retirada",ret,false],["Entregues",entreg,false]];
+  const conf=rows.filter(r=>needEntrega(itensDe(r))).length;
+  const cards=[["Total",rows.length,false],["Entrada",ent,false],["Retirada",ret,false],["Conferência",conf,false]];
   document.getElementById("counts").innerHTML=cards.map(([l,n,a])=>`<div class="stat${a?' alert':''}"><b>${n}</b><span>${l}</span></div>`).join("");
 }
 function buildChips(){
-  const opts=["Todos","A dar entrada","Aguardando retirada","Entregues"];
+  const opts=["Todos","A dar entrada","Aguardando retirada","Conferência clínica","Entregues"];
   document.getElementById("chips").innerHTML=opts.map(o=>`<button class="chip${o===filter?' on':''}" data-f="${o}">${o}</button>`).join("");
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{filter=b.dataset.f;buildChips();render();});
 }
@@ -225,9 +206,18 @@ function matchesFilter(r){
   switch(filter){
     case "A dar entrada": return stOf(r)!=="Entregue"&&needCheckin(its);
     case "Aguardando retirada": return needCheckout(its);
+    case "Conferência clínica": return needEntrega(its);
     case "Entregues": return stOf(r)==="Entregue";
     default: return true;
   }
+}
+function medLine(it){
+  if(it.clinica===true)return `<div class="mi-s ok">✔ entregue na clínica ${fmt(it.clinica_data)}</div>`;
+  if(it.clinica===false)return `<div class="mi-s pend">⚠ divergência na clínica${it.clinica_obs?': '+esc(it.clinica_obs):''}</div>`;
+  if(it.recebido===true)return `<div class="mi-s bl">retirado ${fmt(it.receb_data)}${it.qtd_receb?` (${esc(it.qtd_receb)} un)`:''} — conferir na clínica</div>`;
+  if(it.entrada===false)return `<div class="mi-s pend">⚠ não teve entrada${it.entrada_motivo?': '+esc(it.entrada_motivo):''}${it.entrada_data?' ('+fmt(it.entrada_data)+')':''}</div>`;
+  if(it.entrada===true)return `<div class="mi-s ag">entrada ok — aguardando retirada</div>`;
+  return `<div class="mi-s wait">aguardando entrada de documentos</div>`;
 }
 
 // ---------- RENDER ----------
@@ -238,199 +228,206 @@ function render(){
   const el=document.getElementById("list");
   if(!list.length){el.innerHTML=`<div class="empty">Nenhum processo aqui.<br>Toque em <b>＋ Novo</b> para começar.</div>`;return;}
   el.innerHTML=list.map(r=>{
-    const its=itensDe(r), st=stOf(r);
+    const its=itensDe(r),st=stOf(r);
     let badge;
     if(st==="Entregue")badge=`<span class="badge b-Entregue">Entregue</span>`;
     else if(st==="Pendente")badge=`<span class="badge b-Pendente">Pendente</span>`;
-    else if(st==="Aguardando retirada")badge=`<span class="badge b-aguardando">Aguardando retirada</span>`;
+    else if(st==="Aguardando retirada")badge=`<span class="badge b-aguardando">Aguard. retirada</span>`;
+    else if(st==="Aguardando conferência")badge=`<span class="badge b-conf">Conferir clínica</span>`;
     else badge=`<span class="datebadge">${fmt(r.data_protocolo)}</span>`;
     let btns="";
     if(st!=="Entregue"&&needCheckin(its))btns+=`<button class="cibtn" data-ci="${r.id}">Check-in (docs)</button>`;
     if(needCheckout(its))btns+=`<button class="cibtn out" data-co="${r.id}">Check-out (retirada)</button>`;
-    const right=`<div class="cardright">${badge}${btns}</div>`;
-    const mi=its.map(it=>{
-      let s;
-      if(it.recebido===true)s=`<div class="mi-s ok">✔ retirado ${fmt(it.receb_data)}${it.qtd_receb?` — ${esc(it.qtd_receb)} un`:''}</div>`;
-      else if(it.entrada===false)s=`<div class="mi-s pend">⚠ não teve entrada${it.entrada_motivo?': '+esc(it.entrada_motivo):''}${it.entrada_data?' ('+fmt(it.entrada_data)+')':''}</div>`;
-      else if(it.entrada===true)s=`<div class="mi-s ag">entrada ok — aguardando retirada</div>`;
-      else s=`<div class="mi-s wait">aguardando entrada de documentos</div>`;
-      return `<div class="mi"><div class="mi-n">${esc(it.nome)}</div>${s}</div>`;
-    }).join("");
+    if(needEntrega(its))btns+=`<button class="cibtn clin" data-en="${r.id}">Entrega na clínica</button>`;
+    const mi=its.map(it=>`<div class="mi"><div class="mi-n">${esc(it.nome)}</div>${medLine(it)}</div>`).join("");
     return `<div class="card" data-id="${r.id}">
-      <div class="row1"><div class="pac">${esc(r.paciente||"—")}</div>${right}</div>
+      <div class="row1"><div class="pac">${esc(r.paciente||"—")}</div><div class="cardright">${badge}${btns}</div></div>
       <div class="meta">protocolo ${fmt(r.data_protocolo)} · retorno p/ retirada ${fmt(r.previsao_retirada)}</div>
       ${mi}
     </div>`;
   }).join("");
-  document.querySelectorAll(".card").forEach(c=>c.onclick=e=>{ if(e.target.closest("[data-ci],[data-co]"))return; openForm(c.dataset.id); });
+  document.querySelectorAll(".card").forEach(c=>c.onclick=e=>{ if(e.target.closest("[data-ci],[data-co],[data-en]"))return; openDetail(c.dataset.id); });
   document.querySelectorAll("[data-ci]").forEach(b=>b.onclick=e=>{e.stopPropagation();openCheckin(b.dataset.ci);});
   document.querySelectorAll("[data-co]").forEach(b=>b.onclick=e=>{e.stopPropagation();openCheckout(b.dataset.co);});
+  document.querySelectorAll("[data-en]").forEach(b=>b.onclick=e=>{e.stopPropagation();openEntrega(b.dataset.en);});
 }
 
-// ---------- NOVO / EDITAR ----------
-function openForm(id){
-  editing = id ? rows.find(r=>r.id===id) : null;
-  const r = editing || {data_protocolo:today()};
-  const scrim=document.createElement("div");scrim.className="scrim";
-  scrim.innerHTML=`<div class="sheet">
-    <div class="grab"></div><h2>${id?"Editar processo":"Novo processo"}</h2>
-    ${id?"":`<div class="imp">
-      <p>📄 Anexar LME (PDF)</p><small>preenche paciente, data e medicações automaticamente</small>
+// ---------- NOVO (somente criação) ----------
+function openForm(){
+  const scrim=mkScrim(`<div class="sheet"><div class="grab"></div><h2>Novo processo</h2>
+    <div class="imp"><p>📄 Anexar LME (PDF)</p><small>preenche paciente, data e medicações automaticamente</small>
       <input type="file" id="f_pdf" accept="application/pdf" style="display:none">
       <button class="btn teal" id="impBtn" type="button" style="margin-top:8px">Selecionar PDF do LME</button>
-      <div id="impStatus" class="impstatus"></div>
-    </div><div id="reviseBox"></div>`}
+      <div id="impStatus" class="impstatus"></div></div><div id="reviseBox"></div>
     <div class="seclabel">Dados</div>
-    <label class="fld"><span>Paciente *</span><input id="f_pac" value="${esc(r.paciente)}"></label>
-    <label class="fld"><span>Medicamento(s) — um por linha</span><textarea id="f_med">${esc(r.medicamentos)}</textarea></label>
-    <label class="fld"><span>Data do protocolo</span><input id="f_prot" type="date" value="${(r.data_protocolo||'').slice(0,10)}"></label>
-    <button class="btn teal" id="saveBtn">${id?"Salvar":"Criar processo"}</button>
-    ${id?'<button class="btn danger" id="delBtn">Excluir processo</button>':''}
-    <button class="btn ghost" id="closeBtn">Cancelar</button>
-  </div>`;
-  document.body.appendChild(scrim);
-  scrim.addEventListener("click",e=>{if(e.target===scrim)scrim.remove();});
-  document.getElementById("closeBtn").onclick=()=>scrim.remove();
-  document.getElementById("saveBtn").onclick=()=>save(scrim);
-  if(id)document.getElementById("delBtn").onclick=()=>del(id,scrim);
-  if(!id)wireImport();
+    <label class="fld"><span>Paciente *</span><input id="f_pac"></label>
+    <label class="fld"><span>Medicamento(s) — um por linha</span><textarea id="f_med"></textarea></label>
+    <label class="fld"><span>Data do protocolo</span><input id="f_prot" type="date" value="${today()}"></label>
+    <button class="btn teal" id="saveBtn">Criar processo</button>
+    <button class="btn ghost" id="closeBtn">Cancelar</button></div>`);
+  scrim.querySelector("#closeBtn").onclick=()=>scrim.remove();
+  scrim.querySelector("#saveBtn").onclick=()=>save(scrim);
+  wireImport();
 }
 async function save(scrim){
-  const v=id=>document.getElementById(id).value.trim();
-  const pac=v("f_pac"); if(!pac){toast("Informe o paciente");return;}
+  const pac=document.getElementById("f_pac").value.trim(); if(!pac){toast("Informe o paciente");return;}
   const med=document.getElementById("f_med").value;
-  const lines=med.split("\n").map(s=>s.trim()).filter(Boolean);
-  const prev=editing?itensDe(editing):[];
-  const itens=lines.map(n=>{const m=prev.find(p=>p.nome===n);return m||{nome:n,entrada:null,entrada_motivo:"",entrada_data:null,recebido:null,qtd_receb:null,receb_data:null,comentarios:[]};});
-  const rec={paciente:pac, medicamentos:med||null, data_protocolo:v("f_prot")||null, itens, status:statusDe(itens)};
-  const res= editing ? await sb.from("processos").update(rec).eq("id",editing.id) : await sb.from("processos").insert(rec);
+  const itens=med.split("\n").map(s=>s.trim()).filter(Boolean).map(n=>({nome:n,entrada:null,entrada_motivo:"",entrada_data:null,recebido:null,qtd_receb:null,receb_data:null,clinica:null,clinica_obs:"",clinica_data:null,comentarios:[]}));
+  const rec={paciente:pac,medicamentos:med||null,data_protocolo:document.getElementById("f_prot").value||null,itens,status:statusDe(itens)};
+  const res=await sb.from("processos").insert(rec);
   if(res.error){toast("Erro ao salvar: "+res.error.message);return;}
-  scrim.remove(); toast("Salvo ✔"); load();
+  scrim.remove();toast("Processo criado ✔");load();
 }
-async function del(id,scrim){
-  if(!confirm("Excluir este processo? Não dá para desfazer."))return;
-  const {error}=await sb.from("processos").delete().eq("id",id);
-  if(error){toast("Erro: "+error.message);return;}
-  scrim.remove();toast("Excluído");load();
+
+// ---------- DETALHE (somente leitura) ----------
+function openDetail(id){
+  const r=rows.find(x=>x.id===id); if(!r)return; const its=itensDe(r);
+  const tl=its.map(it=>{
+    const linhas=[];
+    linhas.push(`Entrada: ${it.entrada===true?'teve entrada':it.entrada===false?'NÃO teve ('+esc(it.entrada_motivo||'-')+')':'—'}${it.entrada_data?' · '+fmt(it.entrada_data):''}`);
+    linhas.push(`Retirada: ${it.recebido===true?(it.qtd_receb?esc(it.qtd_receb)+' un':'recebido')+(it.receb_data?' · '+fmt(it.receb_data):''):'—'}`);
+    linhas.push(`Clínica: ${it.clinica===true?'conferido':it.clinica===false?'DIVERGÊNCIA ('+esc(it.clinica_obs||'-')+')':'—'}${it.clinica_data?' · '+fmt(it.clinica_data):''}`);
+    const log=it.comentarios.length?`<div class="clog">${it.comentarios.map(c=>`<div>• ${esc(c.txt)}${c.em?' ('+fmt(c.em)+')':''}</div>`).join("")}</div>`:"";
+    return `<div class="citem"><div class="nm">${esc(it.nome)}</div>${linhas.map(l=>`<div class="tl">${l}</div>`).join("")}${log}</div>`;
+  }).join("");
+  const scrim=mkScrim(`<div class="sheet"><div class="grab"></div>
+    <h2>${esc(r.paciente)}</h2>
+    <p class="sub">protocolo ${fmt(r.data_protocolo)} · retorno p/ retirada ${fmt(r.previsao_retirada)} · ${stOf(r)}</p>
+    <div class="seclabel">Medicamentos e histórico</div>
+    ${tl}
+    <p class="sub" style="margin-top:10px">Os dados do processo não podem ser editados. Comentários são feitos nas etapas de check-in, check-out e entrega na clínica.</p>
+    <button class="btn danger" id="delBtn">Excluir processo (cadastro errado)</button>
+    <button class="btn ghost" id="closeBtn">Fechar</button></div>`);
+  scrim.querySelector("#closeBtn").onclick=()=>scrim.remove();
+  scrim.querySelector("#delBtn").onclick=async()=>{
+    if(!confirm("Excluir este processo? Não dá para desfazer."))return;
+    const {error}=await sb.from("processos").delete().eq("id",id);
+    if(error){toast("Erro: "+error.message);return;}
+    scrim.remove();toast("Excluído");load();
+  };
 }
 
 // ---------- CHECK-IN: entrega de documentos ----------
 function openCheckin(id){
   const r=rows.find(x=>x.id===id); if(!r)return;
-  const base=itensDe(r);
-  const work=base.map(i=>({...i, entrada: i.entrada===false?false:true, novo:""}));
-  const scrim=document.createElement("div");scrim.className="scrim";
-  scrim.innerHTML=`<div class="sheet"><div class="grab"></div>
+  const work=itensDe(r).map(i=>({...i, entrada:i.entrada===false?false:true, novo:""}));
+  const scrim=mkScrim(`<div class="sheet"><div class="grab"></div>
     <h2>Check-in — entrega de documentos</h2>
     <p class="sub">${esc(r.paciente)} — marque a entrada de cada medicamento</p>
     <div id="ciList"></div>
     <button class="btn teal" id="ciConfirm">Confirmar entrada</button>
-    <button class="btn ghost" id="ciClose">Cancelar</button></div>`;
-  document.body.appendChild(scrim);
+    <button class="btn ghost" id="ciClose">Cancelar</button></div>`);
   const listEl=scrim.querySelector("#ciList");
   function readInputs(){work.forEach((it,k)=>{
-    const m=listEl.querySelector(`[data-m="${k}"]`); if(m)it.entrada_motivo=m.value;
-    const d=listEl.querySelector(`[data-ed="${k}"]`); if(d)it.entrada_data=d.value;
-    const c=listEl.querySelector(`[data-c="${k}"]`); if(c)it.novo=c.value;
+    const m=listEl.querySelector(`[data-m="${k}"]`);if(m)it.entrada_motivo=m.value;
+    const d=listEl.querySelector(`[data-ed="${k}"]`);if(d)it.entrada_data=d.value;
+    const c=listEl.querySelector(`[data-c="${k}"]`);if(c)it.novo=c.value;
   });}
   function draw(){
     listEl.innerHTML=work.map((it,k)=>{
       const log=it.comentarios.length?`<div class="clog">${it.comentarios.map(c=>`<div>• ${esc(c.txt)}${c.em?' ('+fmt(c.em)+')':''}</div>`).join("")}</div>`:"";
-      const noEntry = it.entrada?"":`
-        <div class="sub2"><span>Motivo (não teve entrada) *</span><input data-m="${k}" placeholder="ex.: falta assinatura no laudo" value="${esc(it.entrada_motivo)}"></div>
+      const ne=it.entrada?"":`<div class="sub2"><span>Motivo (não teve entrada) *</span><input data-m="${k}" placeholder="ex.: falta assinatura no laudo" value="${esc(it.entrada_motivo)}"></div>
         <div class="sub2"><span>Data em que não teve entrada</span><input type="date" data-ed="${k}" value="${it.entrada_data||today()}"></div>`;
-      return `<div class="citem">
-        <div class="nm">${esc(it.nome)}</div>
-        <div class="seg">
-          <button type="button" data-ok="${k}" class="${it.entrada?'onok':''}">Teve entrada</button>
-          <button type="button" data-no="${k}" class="${it.entrada?'':'onno'}">Não teve entrada</button>
-        </div>
-        ${noEntry}${log}
-        <div class="sub2"><span>Comentário (opcional)</span><input data-c="${k}" value="${esc(it.novo)}"></div>
-      </div>`;
+      return `<div class="citem"><div class="nm">${esc(it.nome)}</div>
+        <div class="seg"><button type="button" data-ok="${k}" class="${it.entrada?'onok':''}">Teve entrada</button><button type="button" data-no="${k}" class="${it.entrada?'':'onno'}">Não teve entrada</button></div>
+        ${ne}${log}<div class="sub2"><span>Comentário (opcional)</span><input data-c="${k}" value="${esc(it.novo)}"></div></div>`;
     }).join("");
     listEl.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.ok].entrada=true;draw();});
     listEl.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.no].entrada=false;draw();});
   }
   draw();
-  scrim.addEventListener("click",e=>{if(e.target===scrim)scrim.remove();});
   scrim.querySelector("#ciClose").onclick=()=>scrim.remove();
-  scrim.querySelector("#ciConfirm").onclick=async ()=>{
+  scrim.querySelector("#ciConfirm").onclick=async()=>{
     readInputs();
-    for(const it of work){ if(!it.entrada && !it.entrada_motivo.trim()){toast("Informe o motivo de: "+it.nome);return;} }
-    const itens=work.map(it=>{
-      const comentarios=it.comentarios.slice();
-      if(it.novo.trim())comentarios.push({txt:it.novo.trim(),em:today()});
-      return {
-        nome:it.nome, qtd_prev:it.qtd_prev,
-        entrada:it.entrada,
-        entrada_motivo: it.entrada?"":it.entrada_motivo.trim(),
-        entrada_data: it.entrada?(it.entrada_data||today()):(it.entrada_data||today()),
-        recebido:it.recebido, qtd_receb:it.qtd_receb, receb_data:it.receb_data,
-        comentarios
-      };
-    });
-    const {error}=await sb.from("processos").update({itens,status:statusDe(itens)}).eq("id",id);
-    if(error){toast("Erro: "+error.message);return;}
-    scrim.remove(); toast("Entrada registrada ✔"); load();
+    for(const it of work){if(!it.entrada&&!it.entrada_motivo.trim()){toast("Informe o motivo de: "+it.nome);return;}}
+    const itens=work.map(it=>{const com=it.comentarios.slice();if(it.novo.trim())com.push({txt:it.novo.trim(),em:today()});
+      return {nome:it.nome,qtd_prev:it.qtd_prev,entrada:it.entrada,entrada_motivo:it.entrada?"":it.entrada_motivo.trim(),entrada_data:it.entrada_data||today(),recebido:it.recebido,qtd_receb:it.qtd_receb,receb_data:it.receb_data,clinica:it.clinica,clinica_obs:it.clinica_obs,clinica_data:it.clinica_data,comentarios:com};});
+    await salvar(id,itens,"Entrada registrada ✔",scrim);
   };
 }
 
 // ---------- CHECK-OUT: retirada de medicações ----------
 function openCheckout(id){
   const r=rows.find(x=>x.id===id); if(!r)return;
-  const base=itensDe(r);
-  const work=base.map(i=>({...i, _receb: i.recebido===true, _q: i.qtd_receb!=null?i.qtd_receb:(i.qtd_prev||""), _rd: i.receb_data||today()}));
-  const elig=work.filter(i=>i.entrada===true);
-  const scrim=document.createElement("div");scrim.className="scrim";
-  scrim.innerHTML=`<div class="sheet"><div class="grab"></div>
+  const work=itensDe(r).map(i=>({...i,_r:i.recebido===true,_q:i.qtd_receb!=null?i.qtd_receb:(i.qtd_prev||""),_d:i.receb_data||today(),novo:""}));
+  const elig=work.filter(i=>i.entrada===true), sem=work.filter(i=>i.entrada!==true);
+  const scrim=mkScrim(`<div class="sheet"><div class="grab"></div>
     <h2>Check-out — retirada de medicações</h2>
     <p class="sub">${esc(r.paciente)} — confira o número unitário e marque o recebido</p>
     <div id="coList"></div>
     <button class="btn blue" id="coConfirm">Confirmar retirada</button>
-    <button class="btn ghost" id="coClose">Cancelar</button></div>`;
-  document.body.appendChild(scrim);
+    <button class="btn ghost" id="coClose">Cancelar</button></div>`);
   const listEl=scrim.querySelector("#coList");
-  const semEntrada=work.filter(i=>i.entrada!==true);
-  listEl.innerHTML = elig.map((it)=>{
-    const k=work.indexOf(it);
-    return `<div class="citem">
-      <div class="nm">${esc(it.nome)}</div>
-      <div class="prev">previsto: ${it.qtd_prev?esc(it.qtd_prev)+' un':'—'}</div>
-      <label class="chk"><input type="checkbox" data-r="${k}" ${it._receb?'checked':''}> Recebido — número unitário conferido</label>
+  listEl.innerHTML=elig.map(it=>{const k=work.indexOf(it);
+    return `<div class="citem"><div class="nm">${esc(it.nome)}</div><div class="prev">solicitado: ${it.qtd_prev?esc(it.qtd_prev)+' un':'—'}</div>
+      <label class="chk"><input type="checkbox" data-r="${k}" ${it._r?'checked':''}> Recebido — número unitário conferido</label>
       <div class="sub2"><span>Quantidade recebida</span><input type="number" inputmode="numeric" data-q="${k}" value="${esc(it._q)}"></div>
-      <div class="sub2"><span>Data da retirada</span><input type="date" data-rd="${k}" value="${it._rd}"></div>
-    </div>`;
-  }).join("") + (semEntrada.length?`<div class="noent">Sem entrada (não disponível p/ retirada): ${semEntrada.map(i=>esc(i.nome.split(" — ")[0])).join("; ")}</div>`:"");
-  scrim.addEventListener("click",e=>{if(e.target===scrim)scrim.remove();});
+      <div class="sub2"><span>Data da retirada</span><input type="date" data-d="${k}" value="${it._d}"></div>
+      <div class="sub2"><span>Comentário (opcional)</span><input data-c="${k}" value=""></div></div>`;
+  }).join("")+(sem.length?`<div class="noent">Sem entrada (não disponível): ${sem.map(i=>esc(i.nome)).join("; ")}</div>`:"");
   scrim.querySelector("#coClose").onclick=()=>scrim.remove();
-  scrim.querySelector("#coConfirm").onclick=async ()=>{
-    elig.forEach(it=>{
-      const k=work.indexOf(it);
-      const cb=listEl.querySelector(`[data-r="${k}"]`);
-      const q=listEl.querySelector(`[data-q="${k}"]`);
-      const rd=listEl.querySelector(`[data-rd="${k}"]`);
-      if(cb&&cb.checked){ it.recebido=true; it.qtd_receb=q?q.value.trim():null; it.receb_data=rd?rd.value:today(); }
+  scrim.querySelector("#coConfirm").onclick=async()=>{
+    elig.forEach(it=>{const k=work.indexOf(it);
+      const cb=listEl.querySelector(`[data-r="${k}"]`),q=listEl.querySelector(`[data-q="${k}"]`),d=listEl.querySelector(`[data-d="${k}"]`),c=listEl.querySelector(`[data-c="${k}"]`);
+      if(cb&&cb.checked){it.recebido=true;it.qtd_receb=q?q.value.trim():null;it.receb_data=d?d.value:today();}
+      it.novo=c?c.value:"";
     });
-    const itens=work.map(it=>({
-      nome:it.nome, qtd_prev:it.qtd_prev,
-      entrada:it.entrada, entrada_motivo:it.entrada_motivo, entrada_data:it.entrada_data,
-      recebido:it.recebido===true?true:null, qtd_receb:it.qtd_receb, receb_data:it.receb_data,
-      comentarios:it.comentarios
-    }));
-    const {error}=await sb.from("processos").update({itens,status:statusDe(itens)}).eq("id",id);
-    if(error){toast("Erro: "+error.message);return;}
-    scrim.remove();
-    toast(statusDe(itens)==="Entregue"?"Retirada concluída ✔":"Retirada parcial salva"); load();
+    const itens=work.map(it=>{const com=it.comentarios.slice();if(it.novo&&it.novo.trim())com.push({txt:it.novo.trim(),em:today()});
+      return {nome:it.nome,qtd_prev:it.qtd_prev,entrada:it.entrada,entrada_motivo:it.entrada_motivo,entrada_data:it.entrada_data,recebido:it.recebido===true?true:null,qtd_receb:it.qtd_receb,receb_data:it.receb_data,clinica:it.clinica,clinica_obs:it.clinica_obs,clinica_data:it.clinica_data,comentarios:com};});
+    await salvar(id,itens,"Retirada salva ✔",scrim);
   };
 }
+
+// ---------- ENTREGA NA CLÍNICA: conferência ----------
+function openEntrega(id){
+  const r=rows.find(x=>x.id===id); if(!r)return;
+  const work=itensDe(r).map(i=>({...i,_c:i.clinica===false?false:true,_obs:i.clinica_obs||"",_d:i.clinica_data||today(),novo:""}));
+  const elig=work.filter(i=>i.recebido===true), pend=work.filter(i=>i.recebido!==true);
+  const scrim=mkScrim(`<div class="sheet"><div class="grab"></div>
+    <h2>Entrega na clínica — conferência</h2>
+    <p class="sub">${esc(r.paciente)} — confira o que chegou em relação ao solicitado</p>
+    <div id="enList"></div>
+    <button class="btn green" id="enConfirm">Confirmar conferência</button>
+    <button class="btn ghost" id="enClose">Cancelar</button></div>`);
+  const listEl=scrim.querySelector("#enList");
+  function readInputs(){work.forEach((it,k)=>{const o=listEl.querySelector(`[data-o="${k}"]`);if(o)it._obs=o.value;const d=listEl.querySelector(`[data-d="${k}"]`);if(d)it._d=d.value;const c=listEl.querySelector(`[data-c="${k}"]`);if(c)it.novo=c.value;});}
+  function draw(){
+    listEl.innerHTML=elig.map(it=>{const k=work.indexOf(it);
+      const div=it._c?"":`<div class="sub2"><span>Descreva a divergência *</span><input data-o="${k}" placeholder="ex.: chegou 10 em vez de 12" value="${esc(it._obs)}"></div>`;
+      return `<div class="citem"><div class="nm">${esc(it.nome)}</div>
+        <div class="prev">solicitado: ${it.qtd_prev?esc(it.qtd_prev)+' un':'—'} · recebido: ${it.qtd_receb?esc(it.qtd_receb)+' un':'—'}</div>
+        <div class="seg"><button type="button" data-ok="${k}" class="${it._c?'onok':''}">Confere</button><button type="button" data-no="${k}" class="${it._c?'':'onno'}">Divergência</button></div>
+        ${div}<div class="sub2"><span>Data da entrega na clínica</span><input type="date" data-d="${k}" value="${it._d}"></div>
+        <div class="sub2"><span>Comentário (opcional)</span><input data-c="${k}" value="${esc(it.novo)}"></div></div>`;
+    }).join("")+(pend.length?`<div class="noent">Ainda não retirado da farmácia: ${pend.map(i=>esc(i.nome)).join("; ")}</div>`:"");
+    listEl.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.ok]._c=true;draw();});
+    listEl.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.no]._c=false;draw();});
+  }
+  draw();
+  scrim.querySelector("#enClose").onclick=()=>scrim.remove();
+  scrim.querySelector("#enConfirm").onclick=async()=>{
+    readInputs();
+    for(const it of elig){if(!it._c&&!it._obs.trim()){toast("Descreva a divergência de: "+it.nome);return;}}
+    elig.forEach(it=>{it.clinica=it._c;it.clinica_obs=it._c?"":it._obs.trim();it.clinica_data=it._d||today();});
+    const itens=work.map(it=>{const com=it.comentarios.slice();if(it.novo&&it.novo.trim())com.push({txt:it.novo.trim(),em:today()});
+      return {nome:it.nome,qtd_prev:it.qtd_prev,entrada:it.entrada,entrada_motivo:it.entrada_motivo,entrada_data:it.entrada_data,recebido:it.recebido,qtd_receb:it.qtd_receb,receb_data:it.receb_data,clinica:it.clinica,clinica_obs:it.clinica_obs,clinica_data:it.clinica_data,comentarios:com};});
+    await salvar(id,itens,statusDe(itens)==="Entregue"?"Entrega concluída ✔":"Conferência salva",scrim);
+  };
+}
+
+async function salvar(id,itens,msg,scrim){
+  const {error}=await sb.from("processos").update({itens,status:statusDe(itens)}).eq("id",id);
+  if(error){toast("Erro: "+error.message);return;}
+  scrim.remove();toast(msg);load();
+}
+function mkScrim(html){const s=document.createElement("div");s.className="scrim";s.innerHTML=html;document.body.appendChild(s);s.addEventListener("click",e=>{if(e.target===s)s.remove();});return s;}
 
 // ---------- IMPORTAR LME (PDF) ----------
 function wireImport(){
   const btn=document.getElementById("impBtn"); if(!btn)return;
-  const inp=document.getElementById("f_pdf"); const st=document.getElementById("impStatus");
+  const inp=document.getElementById("f_pdf"),st=document.getElementById("impStatus");
   btn.onclick=()=>inp.click();
-  inp.onchange=async ()=>{
+  inp.onchange=async()=>{
     const file=inp.files[0]; if(!file)return;
     if(!window.pdfjsLib){st.className="impstatus err";st.textContent="Leitor de PDF não carregou. Preencha manualmente.";return;}
     st.className="impstatus";st.textContent="Lendo "+file.name+"…";
@@ -439,7 +436,7 @@ function wireImport(){
     const setF=(id,val)=>{if(val){const e=document.getElementById(id);e.value=val;e.closest("label.fld").classList.add("filled");}};
     setF("f_pac",res.paciente);
     if(res.data){const m=res.data.match(/(\d{2})\/(\d{2})\/(\d{4})/);if(m){const e=document.getElementById("f_prot");e.value=`${m[3]}-${m[2]}-${m[1]}`;e.closest("label.fld").classList.add("filled");}}
-    if(res.meds&&res.meds.length){setF("f_med",res.meds.map(x=>x.nome+(x.qtd_mes?` — ${x.qtd_mes}/mês`:"")).join("\n"));}
+    if(res.meds&&res.meds.length)setF("f_med",res.meds.map(x=>x.nome+(x.qtd_mes?` — ${x.qtd_mes}/mês`:"")).join("\n"));
     const achou=[res.paciente&&"paciente",res.data&&"data",res.meds&&res.meds.length&&"medicação"].filter(Boolean);
     st.className="impstatus ok";st.textContent="✔ Lido: "+(achou.join(", ")||"nada reconhecido");
     document.getElementById("reviseBox").innerHTML='<div class="revise">⚠ Confira os campos antes de criar — a leitura automática pode falhar.</div>';
@@ -457,8 +454,8 @@ async function readLME(file){
       const ann=await page.getAnnotations();
       ann.forEach(a=>{if(a.fieldName!==undefined)fields.push({name:a.fieldName,val:Array.isArray(a.fieldValue)?a.fieldValue.join(","):a.fieldValue,x:Math.round(a.rect[0]),y:Math.round(a.rect[3])});});
     }
-    const t=parseLME(items), ff=parseFields(fields);
-    return { paciente:(ff&&ff.paciente)||t.paciente, data:(ff&&ff.data)||t.data, meds:(ff&&ff.meds.length)?ff.meds:t.meds };
+    const t=parseLME(items),ff=parseFields(fields);
+    return {paciente:(ff&&ff.paciente)||t.paciente,data:(ff&&ff.data)||t.data,meds:(ff&&ff.meds.length)?ff.meds:t.meds};
   }catch(e){return {error:String(e)};}
 }
 function parseFields(fields){
@@ -472,10 +469,7 @@ function parseFields(fields){
   if(dt)out.data=String(dt.val).match(/\b\d{2}\/\d{2}\/\d{4}\b/)[0];
   const medFields=f.filter(a=>/med/i.test(a.name)&&!isInt(a.val)&&String(a.val).trim().length>3).sort((a,b)=>b.y-a.y);
   const qFields=f.filter(a=>isInt(a.val));
-  for(const m of medFields){
-    const near=qFields.filter(q=>Math.abs(q.y-m.y)<=8).sort((a,b)=>a.x-b.x);
-    out.meds.push({nome:String(m.val).trim(),qtd_mes:near[0]?String(near[0].val).trim():null});
-  }
+  for(const m of medFields){const near=qFields.filter(q=>Math.abs(q.y-m.y)<=8).sort((a,b)=>a.x-b.x);out.meds.push({nome:String(m.val).trim(),qtd_mes:near[0]?String(near[0].val).trim():null});}
   return (out.paciente||out.meds.length)?out:null;
 }
 function parseLME(items){
