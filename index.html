@@ -14,11 +14,9 @@
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
   .hidden{display:none!important}
-  header{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;
-    padding:max(12px,env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px}
+  header{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:max(12px,env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px}
   header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.2px;flex:1}
   header small{display:block;font-weight:400;opacity:.75;font-size:11px}
   .iconbtn{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:600}
@@ -39,17 +37,18 @@
   .card .pac{font-weight:700;font-size:15.5px;flex:1}
   .cardright{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
   .datebadge{font-size:11px;font-weight:700;color:#475569;background:var(--greybg);padding:4px 9px;border-radius:999px;white-space:nowrap}
-  .cibtn{background:var(--teal);color:#fff;border:0;border-radius:9px;padding:7px 11px;font-size:12.5px;font-weight:700;white-space:nowrap}
+  .cibtn{background:var(--teal);color:#fff;border:0;border-radius:9px;padding:7px 11px;font-size:12px;font-weight:700;white-space:nowrap}
+  .cibtn.out{background:var(--blue)}
   .badge{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
   .b-Pendente{background:var(--redbg);color:var(--red)}
   .b-Entregue{background:var(--greenbg);color:var(--green)}
+  .b-aguardando{background:var(--amberbg);color:var(--amber)}
   .card .meta{color:var(--mut);font-size:12px;margin-top:5px}
   .mi{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
-  .mi:first-of-type{border-top:0;padding-top:0}
+  .mi:first-of-type{border-top:0}
   .mi-n{font-size:13px;color:#334155}
   .mi-s{font-size:11.5px;font-weight:700;margin-top:2px}
-  .mi-s.ok{color:var(--green)} .mi-s.pend{color:var(--red)} .mi-s.wait{color:var(--mut)}
-  .mi-c{font-size:11px;color:var(--mut);margin-top:1px}
+  .mi-s.ok{color:var(--green)} .mi-s.pend{color:var(--red)} .mi-s.wait{color:var(--mut)} .mi-s.ag{color:var(--amber)}
   .fab{position:fixed;right:16px;bottom:max(18px,env(safe-area-inset-bottom));z-index:30;background:var(--teal);color:#fff;border:0;border-radius:16px;padding:15px 18px;font-size:15px;font-weight:700;box-shadow:0 6px 18px rgba(13,148,136,.4)}
   .scrim{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;display:flex;align-items:flex-end}
   .sheet{background:#fff;width:100%;max-height:94vh;border-radius:20px 20px 0 0;overflow-y:auto;padding:6px 16px calc(24px + env(safe-area-inset-bottom))}
@@ -64,6 +63,7 @@
   .btn{width:100%;border:0;border-radius:13px;padding:14px;font-size:15.5px;font-weight:700;margin-top:8px}
   .btn.primary{background:var(--navy);color:#fff}
   .btn.teal{background:var(--teal);color:#fff}
+  .btn.blue{background:var(--blue);color:#fff}
   .btn.ghost{background:var(--greybg);color:var(--navy)}
   .btn.danger{background:#fff;color:var(--red);border:1px solid #fca5a5}
   .imp{border:1.5px dashed var(--teal);background:#f0fdfa;border-radius:13px;padding:14px;text-align:center;margin:8px 0 2px}
@@ -74,15 +74,19 @@
   .revise{background:var(--amberbg);color:var(--amber);font-size:12px;font-weight:700;border-radius:9px;padding:8px 11px;margin:8px 0}
   .filled input,.filled textarea{background:#f0fdfa;border-color:#5eead4}
   .citem{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
-  .citem .nm{font-weight:600;font-size:14px;margin-bottom:9px}
+  .citem .nm{font-weight:600;font-size:14px;margin-bottom:4px}
+  .citem .prev{font-size:12px;color:var(--mut);margin-bottom:9px}
   .seg{display:flex;gap:8px}
   .seg button{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px;font-weight:700;font-size:13px;margin:0}
   .seg button.onok{background:var(--greenbg);border-color:#86efac;color:var(--green)}
   .seg button.onno{background:var(--redbg);border-color:#fca5a5;color:var(--red)}
   .sub2{margin-top:9px}
   .sub2 span{display:block;font-size:11.5px;color:var(--mut);font-weight:600;margin-bottom:4px}
+  .chk{display:flex;align-items:center;gap:9px;margin-top:9px;font-weight:700;font-size:13.5px}
+  .chk input{width:20px;height:20px;flex:0 0 auto}
   .clog{font-size:11.5px;color:var(--mut);margin-top:8px;background:var(--greybg);border-radius:8px;padding:7px 9px}
   .clog div{margin-bottom:2px}
+  .noent{font-size:12px;color:var(--red);font-weight:600;margin:6px 0}
   .login{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:28px 22px;background:linear-gradient(160deg,#1f3864,#2e5496)}
   .login .box{background:#fff;border-radius:18px;padding:24px 20px;max-width:420px;width:100%;margin:0 auto}
   .login h1{margin:0 0 2px;font-size:20px;color:var(--navy)}
@@ -96,13 +100,11 @@
 </head>
 <body>
 
-<!-- ====== CONFIG ====== -->
 <script>
   const SUPABASE_URL  = "https://rtaiuhhedyqcmhwtdtlj.supabase.co";
   const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0YWl1aGhlZHlxY21od3RkdGxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjUwMzEsImV4cCI6MjA5Nzc0MTAzMX0.zWkZNV5s7nrpmxvvPZjIo7y5m3_krI6SJR-nnmnhNlA";
 </script>
 
-<!-- LOGIN -->
 <section id="login" class="login">
   <div class="box">
     <h1>Farmácia de Alto Custo</h1>
@@ -114,7 +116,6 @@
   </div>
 </section>
 
-<!-- APP -->
 <div id="app" class="hidden">
   <header>
     <div style="flex:1"><h1>Alto Custo <small id="who"></small></h1></div>
@@ -135,31 +136,44 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 if(window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-let sb=null, rows=[], filter="Todos", search="";
+let sb=null, rows=[], filter="Todos", search="", editing=null;
 
 function esc(s){return (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2100);}
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200);}
 function fmt(d){if(!d)return"—";const p=String(d).slice(0,10).split("-");return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:d;}
 function today(){return new Date().toISOString().slice(0,10);}
 
-// itens normalizados: {nome, entregue(true/false/null), data_retirada, comentarios:[{txt,em}]}
+// item: {nome, qtd_prev, entrada(t/f/null), entrada_motivo, entrada_data, recebido(t/null), qtd_receb, receb_data, comentarios:[{txt,em}]}
 function itensDe(r){
   let arr=(Array.isArray(r.itens)&&r.itens.length)?r.itens
     :(r.medicamentos||"").split("\n").map(s=>s.trim()).filter(Boolean).map(n=>({nome:n}));
-  return arr.map(it=>({
-    nome: it.nome,
-    entregue: (it.entregue===true||it.entregue===false)?it.entregue:null,
-    data_retirada: it.data_retirada||null,
-    comentarios: Array.isArray(it.comentarios)?it.comentarios:(it.problema?[{txt:it.problema,em:null}]:[])
-  }));
+  return arr.map(it=>{
+    const nome=it.nome||"";
+    const qm=nome.match(/(\d+)\s*\/\s*m[eê]s/i);
+    return {
+      nome,
+      qtd_prev: it.qtd_prev!=null?it.qtd_prev:(qm?qm[1]:null),
+      entrada: (it.entrada===true||it.entrada===false)?it.entrada:(it.entregue===true?true:(it.entregue===false?false:null)),
+      entrada_motivo: it.entrada_motivo||(it.entregue===false?(it.problema||""):"")||"",
+      entrada_data: it.entrada_data||null,
+      recebido: (it.recebido===true)?true:(it.entregue===true?true:null),
+      qtd_receb: it.qtd_receb!=null?it.qtd_receb:null,
+      receb_data: it.receb_data||it.data_retirada||null,
+      comentarios: Array.isArray(it.comentarios)?it.comentarios:(it.problema?[{txt:it.problema,em:null}]:[])
+    };
+  });
 }
 function statusDe(itens){
-  const conf=itens.filter(i=>i.entregue!==null);
-  if(!conf.length)return "Protocolado";
-  if(itens.every(i=>i.entregue===true))return "Entregue";
+  if(!itens.length)return "Protocolado";
+  if(itens.every(i=>i.recebido===true))return "Entregue";
+  if(itens.some(i=>i.entrada===false))return "Pendente";
+  if(itens.some(i=>i.entrada===true&&i.recebido!==true))return "Aguardando retirada";
+  if(itens.every(i=>i.entrada==null))return "Protocolado";
   return "Pendente";
 }
-function ultComent(it){return it.comentarios.length?it.comentarios[it.comentarios.length-1].txt:"";}
+function stOf(r){return statusDe(itensDe(r));}
+function needCheckin(its){return its.some(i=>i.entrada!==true);}      // null ou não teve entrada
+function needCheckout(its){return its.some(i=>i.entrada===true&&i.recebido!==true);}
 
 // ---------- INIT / LOGIN ----------
 function configured(){return SUPABASE_URL && !SUPABASE_URL.includes("COLE_") && SUPABASE_ANON && !SUPABASE_ANON.includes("COLE_");}
@@ -170,10 +184,8 @@ if(configured()){
 
 document.getElementById("loginBtn").onclick = async ()=>{
   const err=document.getElementById("loginErr"); err.classList.add("hidden");
-  if(!configured()){err.textContent="App ainda não configurado (URL/chave do Supabase).";err.classList.remove("hidden");return;}
-  const email=document.getElementById("email").value.trim();
-  const password=document.getElementById("pass").value;
-  const {data,error}=await sb.auth.signInWithPassword({email,password});
+  if(!configured()){err.textContent="App ainda não configurado.";err.classList.remove("hidden");return;}
+  const {data,error}=await sb.auth.signInWithPassword({email:document.getElementById("email").value.trim(),password:document.getElementById("pass").value});
   if(error){err.textContent="Não foi possível entrar: "+error.message;err.classList.remove("hidden");return;}
   showApp(data.session);
 };
@@ -197,29 +209,28 @@ async function load(){
 // ---------- COUNTS + CHIPS ----------
 function renderCounts(){
   const total=rows.length;
-  const aCheck=rows.filter(r=>r.status==="Protocolado").length;
-  const pend=rows.filter(r=>r.status==="Pendente").length;
-  const entreg=rows.filter(r=>r.status==="Entregue").length;
-  const cards=[["Total",total,false],["Check-in",aCheck,false],["Pendências",pend,pend>0],["Entregues",entreg,false]];
-  document.getElementById("counts").innerHTML=cards.map(([l,n,a])=>
-    `<div class="stat${a?' alert':''}"><b>${n}</b><span>${l}</span></div>`).join("");
+  const ent=rows.filter(r=>stOf(r)!=="Entregue"&&needCheckin(itensDe(r))).length;
+  const ret=rows.filter(r=>needCheckout(itensDe(r))).length;
+  const entreg=rows.filter(r=>stOf(r)==="Entregue").length;
+  const cards=[["Total",total,false],["Entrada",ent,false],["Retirada",ret,false],["Entregues",entreg,false]];
+  document.getElementById("counts").innerHTML=cards.map(([l,n,a])=>`<div class="stat${a?' alert':''}"><b>${n}</b><span>${l}</span></div>`).join("");
 }
 function buildChips(){
-  const opts=["Todos","A fazer check-in","Pendentes","Entregues"];
-  document.getElementById("chips").innerHTML=opts.map(o=>
-    `<button class="chip${o===filter?' on':''}" data-f="${o}">${o}</button>`).join("");
+  const opts=["Todos","A dar entrada","Aguardando retirada","Entregues"];
+  document.getElementById("chips").innerHTML=opts.map(o=>`<button class="chip${o===filter?' on':''}" data-f="${o}">${o}</button>`).join("");
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{filter=b.dataset.f;buildChips();render();});
 }
 function matchesFilter(r){
+  const its=itensDe(r);
   switch(filter){
-    case "A fazer check-in": return r.status==="Protocolado";
-    case "Pendentes": return r.status==="Pendente";
-    case "Entregues": return r.status==="Entregue";
+    case "A dar entrada": return stOf(r)!=="Entregue"&&needCheckin(its);
+    case "Aguardando retirada": return needCheckout(its);
+    case "Entregues": return stOf(r)==="Entregue";
     default: return true;
   }
 }
 
-// ---------- RENDER LIST ----------
+// ---------- RENDER ----------
 function render(){
   renderCounts();
   let list=rows.filter(matchesFilter);
@@ -227,21 +238,23 @@ function render(){
   const el=document.getElementById("list");
   if(!list.length){el.innerHTML=`<div class="empty">Nenhum processo aqui.<br>Toque em <b>＋ Novo</b> para começar.</div>`;return;}
   el.innerHTML=list.map(r=>{
-    const st=r.status||"Protocolado";
-    const itens=itensDe(r);
-    let right;
-    if(st==="Entregue"){ right=`<span class="badge b-Entregue">Entregue</span>`; }
-    else{
-      const badge = st==="Pendente" ? `<span class="badge b-Pendente">Pendente</span>` : `<span class="datebadge">${fmt(r.data_protocolo)}</span>`;
-      right=`<div class="cardright">${badge}<button class="cibtn" data-ci="${r.id}">Check-in Farmácia</button></div>`;
-    }
-    const mi=itens.map(it=>{
+    const its=itensDe(r), st=stOf(r);
+    let badge;
+    if(st==="Entregue")badge=`<span class="badge b-Entregue">Entregue</span>`;
+    else if(st==="Pendente")badge=`<span class="badge b-Pendente">Pendente</span>`;
+    else if(st==="Aguardando retirada")badge=`<span class="badge b-aguardando">Aguardando retirada</span>`;
+    else badge=`<span class="datebadge">${fmt(r.data_protocolo)}</span>`;
+    let btns="";
+    if(st!=="Entregue"&&needCheckin(its))btns+=`<button class="cibtn" data-ci="${r.id}">Check-in (docs)</button>`;
+    if(needCheckout(its))btns+=`<button class="cibtn out" data-co="${r.id}">Check-out (retirada)</button>`;
+    const right=`<div class="cardright">${badge}${btns}</div>`;
+    const mi=its.map(it=>{
       let s;
-      if(it.entregue===true) s=`<div class="mi-s ok">✔ retirado em ${fmt(it.data_retirada)}</div>`;
-      else if(it.entregue===false) s=`<div class="mi-s pend">⚠ não entregue${ultComent(it)?': '+esc(ultComent(it)):''}</div>`;
-      else s=`<div class="mi-s wait">aguardando check-in</div>`;
-      const extra = (it.comentarios.length>1)?`<div class="mi-c">${it.comentarios.length} comentário(s)</div>`:"";
-      return `<div class="mi"><div class="mi-n">${esc(it.nome)}</div>${s}${extra}</div>`;
+      if(it.recebido===true)s=`<div class="mi-s ok">✔ retirado ${fmt(it.receb_data)}${it.qtd_receb?` — ${esc(it.qtd_receb)} un`:''}</div>`;
+      else if(it.entrada===false)s=`<div class="mi-s pend">⚠ não teve entrada${it.entrada_motivo?': '+esc(it.entrada_motivo):''}${it.entrada_data?' ('+fmt(it.entrada_data)+')':''}</div>`;
+      else if(it.entrada===true)s=`<div class="mi-s ag">entrada ok — aguardando retirada</div>`;
+      else s=`<div class="mi-s wait">aguardando entrada de documentos</div>`;
+      return `<div class="mi"><div class="mi-n">${esc(it.nome)}</div>${s}</div>`;
     }).join("");
     return `<div class="card" data-id="${r.id}">
       <div class="row1"><div class="pac">${esc(r.paciente||"—")}</div>${right}</div>
@@ -249,22 +262,20 @@ function render(){
       ${mi}
     </div>`;
   }).join("");
-  document.querySelectorAll(".card").forEach(c=>c.onclick=e=>{ if(e.target.closest("[data-ci]"))return; openForm(c.dataset.id); });
+  document.querySelectorAll(".card").forEach(c=>c.onclick=e=>{ if(e.target.closest("[data-ci],[data-co]"))return; openForm(c.dataset.id); });
   document.querySelectorAll("[data-ci]").forEach(b=>b.onclick=e=>{e.stopPropagation();openCheckin(b.dataset.ci);});
+  document.querySelectorAll("[data-co]").forEach(b=>b.onclick=e=>{e.stopPropagation();openCheckout(b.dataset.co);});
 }
 
-// ---------- FORM NOVO/EDITAR ----------
-let editing=null;
+// ---------- NOVO / EDITAR ----------
 function openForm(id){
   editing = id ? rows.find(r=>r.id===id) : null;
   const r = editing || {data_protocolo:today()};
   const scrim=document.createElement("div");scrim.className="scrim";
   scrim.innerHTML=`<div class="sheet">
-    <div class="grab"></div>
-    <h2>${id?"Editar processo":"Novo processo"}</h2>
+    <div class="grab"></div><h2>${id?"Editar processo":"Novo processo"}</h2>
     ${id?"":`<div class="imp">
-      <p>📄 Anexar LME (PDF)</p>
-      <small>preenche paciente, data e medicações automaticamente</small>
+      <p>📄 Anexar LME (PDF)</p><small>preenche paciente, data e medicações automaticamente</small>
       <input type="file" id="f_pdf" accept="application/pdf" style="display:none">
       <button class="btn teal" id="impBtn" type="button" style="margin-top:8px">Selecionar PDF do LME</button>
       <div id="impStatus" class="impstatus"></div>
@@ -290,11 +301,9 @@ async function save(scrim){
   const med=document.getElementById("f_med").value;
   const lines=med.split("\n").map(s=>s.trim()).filter(Boolean);
   const prev=editing?itensDe(editing):[];
-  const itens=lines.map(n=>{const m=prev.find(p=>p.nome===n);return m||{nome:n,entregue:null,data_retirada:null,comentarios:[]};});
+  const itens=lines.map(n=>{const m=prev.find(p=>p.nome===n);return m||{nome:n,entrada:null,entrada_motivo:"",entrada_data:null,recebido:null,qtd_receb:null,receb_data:null,comentarios:[]};});
   const rec={paciente:pac, medicamentos:med||null, data_protocolo:v("f_prot")||null, itens, status:statusDe(itens)};
-  let res;
-  if(editing) res=await sb.from("processos").update(rec).eq("id",editing.id);
-  else res=await sb.from("processos").insert(rec);
+  const res= editing ? await sb.from("processos").update(rec).eq("id",editing.id) : await sb.from("processos").insert(rec);
   if(res.error){toast("Erro ao salvar: "+res.error.message);return;}
   scrim.remove(); toast("Salvo ✔"); load();
 }
@@ -305,77 +314,114 @@ async function del(id,scrim){
   scrim.remove();toast("Excluído");load();
 }
 
-// ---------- CHECK-IN FARMÁCIA (por medicamento) ----------
+// ---------- CHECK-IN: entrega de documentos ----------
 function openCheckin(id){
   const r=rows.find(x=>x.id===id); if(!r)return;
-  // copia de trabalho; null assume "entregue" por padrão no 1º check-in, pendentes continuam pendentes
-  const work=itensDe(r).map(i=>({
-    nome:i.nome,
-    entregue: i.entregue===false?false:true,
-    data_retirada: i.data_retirada||"",
-    comentarios: i.comentarios.slice(),
-    novo:""
-  }));
+  const base=itensDe(r);
+  const work=base.map(i=>({...i, entrada: i.entrada===false?false:true, novo:""}));
   const scrim=document.createElement("div");scrim.className="scrim";
-  scrim.innerHTML=`<div class="sheet">
-    <div class="grab"></div>
-    <h2>Check-in Farmácia</h2>
-    <p class="sub">${esc(r.paciente)} — confirme cada medicamento</p>
+  scrim.innerHTML=`<div class="sheet"><div class="grab"></div>
+    <h2>Check-in — entrega de documentos</h2>
+    <p class="sub">${esc(r.paciente)} — marque a entrada de cada medicamento</p>
     <div id="ciList"></div>
-    <button class="btn teal" id="ciConfirm">Confirmar</button>
-    <button class="btn ghost" id="ciClose">Cancelar</button>
-  </div>`;
+    <button class="btn teal" id="ciConfirm">Confirmar entrada</button>
+    <button class="btn ghost" id="ciClose">Cancelar</button></div>`;
   document.body.appendChild(scrim);
   const listEl=scrim.querySelector("#ciList");
-  function readInputs(){
-    work.forEach((it,k)=>{
-      const d=listEl.querySelector(`[data-d="${k}"]`); if(d)it.data_retirada=d.value;
-      const c=listEl.querySelector(`[data-c="${k}"]`); if(c)it.novo=c.value;
-    });
-  }
+  function readInputs(){work.forEach((it,k)=>{
+    const m=listEl.querySelector(`[data-m="${k}"]`); if(m)it.entrada_motivo=m.value;
+    const d=listEl.querySelector(`[data-ed="${k}"]`); if(d)it.entrada_data=d.value;
+    const c=listEl.querySelector(`[data-c="${k}"]`); if(c)it.novo=c.value;
+  });}
   function draw(){
     listEl.innerHTML=work.map((it,k)=>{
       const log=it.comentarios.length?`<div class="clog">${it.comentarios.map(c=>`<div>• ${esc(c.txt)}${c.em?' ('+fmt(c.em)+')':''}</div>`).join("")}</div>`:"";
-      const dateRow=it.entregue?`<div class="sub2"><span>Data de retirada</span><input type="date" data-d="${k}" value="${it.data_retirada||today()}"></div>`:"";
+      const noEntry = it.entrada?"":`
+        <div class="sub2"><span>Motivo (não teve entrada) *</span><input data-m="${k}" placeholder="ex.: falta assinatura no laudo" value="${esc(it.entrada_motivo)}"></div>
+        <div class="sub2"><span>Data em que não teve entrada</span><input type="date" data-ed="${k}" value="${it.entrada_data||today()}"></div>`;
       return `<div class="citem">
         <div class="nm">${esc(it.nome)}</div>
         <div class="seg">
-          <button type="button" data-ok="${k}" class="${it.entregue?'onok':''}">Entregue</button>
-          <button type="button" data-no="${k}" class="${it.entregue?'':'onno'}">Não entregue</button>
+          <button type="button" data-ok="${k}" class="${it.entrada?'onok':''}">Teve entrada</button>
+          <button type="button" data-no="${k}" class="${it.entrada?'':'onno'}">Não teve entrada</button>
         </div>
-        ${dateRow}
-        ${log}
-        <div class="sub2"><span>${it.entregue?'Comentário (opcional)':'Problema / comentário *'}</span><input data-c="${k}" placeholder="${it.entregue?'observação...':'descreva o que faltou...'}" value="${esc(it.novo)}"></div>
+        ${noEntry}${log}
+        <div class="sub2"><span>Comentário (opcional)</span><input data-c="${k}" value="${esc(it.novo)}"></div>
       </div>`;
     }).join("");
-    listEl.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.ok].entregue=true;draw();});
-    listEl.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.no].entregue=false;draw();});
+    listEl.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.ok].entrada=true;draw();});
+    listEl.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.no].entrada=false;draw();});
   }
   draw();
   scrim.addEventListener("click",e=>{if(e.target===scrim)scrim.remove();});
   scrim.querySelector("#ciClose").onclick=()=>scrim.remove();
   scrim.querySelector("#ciConfirm").onclick=async ()=>{
     readInputs();
-    for(const it of work){
-      if(!it.entregue && !it.novo.trim() && !it.comentarios.length){toast("Descreva o problema de: "+it.nome);return;}
-    }
-    const orig=itensDe(r);
-    const itens=work.map((it,k)=>{
+    for(const it of work){ if(!it.entrada && !it.entrada_motivo.trim()){toast("Informe o motivo de: "+it.nome);return;} }
+    const itens=work.map(it=>{
       const comentarios=it.comentarios.slice();
       if(it.novo.trim())comentarios.push({txt:it.novo.trim(),em:today()});
       return {
-        nome:it.nome,
-        entregue:it.entregue,
-        data_retirada: it.entregue ? (it.data_retirada||today()) : null,
+        nome:it.nome, qtd_prev:it.qtd_prev,
+        entrada:it.entrada,
+        entrada_motivo: it.entrada?"":it.entrada_motivo.trim(),
+        entrada_data: it.entrada?(it.entrada_data||today()):(it.entrada_data||today()),
+        recebido:it.recebido, qtd_receb:it.qtd_receb, receb_data:it.receb_data,
         comentarios
       };
     });
     const {error}=await sb.from("processos").update({itens,status:statusDe(itens)}).eq("id",id);
     if(error){toast("Erro: "+error.message);return;}
+    scrim.remove(); toast("Entrada registrada ✔"); load();
+  };
+}
+
+// ---------- CHECK-OUT: retirada de medicações ----------
+function openCheckout(id){
+  const r=rows.find(x=>x.id===id); if(!r)return;
+  const base=itensDe(r);
+  const work=base.map(i=>({...i, _receb: i.recebido===true, _q: i.qtd_receb!=null?i.qtd_receb:(i.qtd_prev||""), _rd: i.receb_data||today()}));
+  const elig=work.filter(i=>i.entrada===true);
+  const scrim=document.createElement("div");scrim.className="scrim";
+  scrim.innerHTML=`<div class="sheet"><div class="grab"></div>
+    <h2>Check-out — retirada de medicações</h2>
+    <p class="sub">${esc(r.paciente)} — confira o número unitário e marque o recebido</p>
+    <div id="coList"></div>
+    <button class="btn blue" id="coConfirm">Confirmar retirada</button>
+    <button class="btn ghost" id="coClose">Cancelar</button></div>`;
+  document.body.appendChild(scrim);
+  const listEl=scrim.querySelector("#coList");
+  const semEntrada=work.filter(i=>i.entrada!==true);
+  listEl.innerHTML = elig.map((it)=>{
+    const k=work.indexOf(it);
+    return `<div class="citem">
+      <div class="nm">${esc(it.nome)}</div>
+      <div class="prev">previsto: ${it.qtd_prev?esc(it.qtd_prev)+' un':'—'}</div>
+      <label class="chk"><input type="checkbox" data-r="${k}" ${it._receb?'checked':''}> Recebido — número unitário conferido</label>
+      <div class="sub2"><span>Quantidade recebida</span><input type="number" inputmode="numeric" data-q="${k}" value="${esc(it._q)}"></div>
+      <div class="sub2"><span>Data da retirada</span><input type="date" data-rd="${k}" value="${it._rd}"></div>
+    </div>`;
+  }).join("") + (semEntrada.length?`<div class="noent">Sem entrada (não disponível p/ retirada): ${semEntrada.map(i=>esc(i.nome.split(" — ")[0])).join("; ")}</div>`:"");
+  scrim.addEventListener("click",e=>{if(e.target===scrim)scrim.remove();});
+  scrim.querySelector("#coClose").onclick=()=>scrim.remove();
+  scrim.querySelector("#coConfirm").onclick=async ()=>{
+    elig.forEach(it=>{
+      const k=work.indexOf(it);
+      const cb=listEl.querySelector(`[data-r="${k}"]`);
+      const q=listEl.querySelector(`[data-q="${k}"]`);
+      const rd=listEl.querySelector(`[data-rd="${k}"]`);
+      if(cb&&cb.checked){ it.recebido=true; it.qtd_receb=q?q.value.trim():null; it.receb_data=rd?rd.value:today(); }
+    });
+    const itens=work.map(it=>({
+      nome:it.nome, qtd_prev:it.qtd_prev,
+      entrada:it.entrada, entrada_motivo:it.entrada_motivo, entrada_data:it.entrada_data,
+      recebido:it.recebido===true?true:null, qtd_receb:it.qtd_receb, receb_data:it.receb_data,
+      comentarios:it.comentarios
+    }));
+    const {error}=await sb.from("processos").update({itens,status:statusDe(itens)}).eq("id",id);
+    if(error){toast("Erro: "+error.message);return;}
     scrim.remove();
-    const st=statusDe(itens);
-    toast(st==="Entregue"?"Tudo entregue ✔":"Salvo — há itens pendentes");
-    load();
+    toast(statusDe(itens)==="Entregue"?"Retirada concluída ✔":"Retirada parcial salva"); load();
   };
 }
 
@@ -393,10 +439,7 @@ function wireImport(){
     const setF=(id,val)=>{if(val){const e=document.getElementById(id);e.value=val;e.closest("label.fld").classList.add("filled");}};
     setF("f_pac",res.paciente);
     if(res.data){const m=res.data.match(/(\d{2})\/(\d{2})\/(\d{4})/);if(m){const e=document.getElementById("f_prot");e.value=`${m[3]}-${m[2]}-${m[1]}`;e.closest("label.fld").classList.add("filled");}}
-    if(res.meds&&res.meds.length){
-      const txt=res.meds.map(x=>x.nome+(x.qtd_mes?` — ${x.qtd_mes}/mês`:"")).join("\n");
-      setF("f_med",txt);
-    }
+    if(res.meds&&res.meds.length){setF("f_med",res.meds.map(x=>x.nome+(x.qtd_mes?` — ${x.qtd_mes}/mês`:"")).join("\n"));}
     const achou=[res.paciente&&"paciente",res.data&&"data",res.meds&&res.meds.length&&"medicação"].filter(Boolean);
     st.className="impstatus ok";st.textContent="✔ Lido: "+(achou.join(", ")||"nada reconhecido");
     document.getElementById("reviseBox").innerHTML='<div class="revise">⚠ Confira os campos antes de criar — a leitura automática pode falhar.</div>';
@@ -415,11 +458,7 @@ async function readLME(file){
       ann.forEach(a=>{if(a.fieldName!==undefined)fields.push({name:a.fieldName,val:Array.isArray(a.fieldValue)?a.fieldValue.join(","):a.fieldValue,x:Math.round(a.rect[0]),y:Math.round(a.rect[3])});});
     }
     const t=parseLME(items), ff=parseFields(fields);
-    return {
-      paciente:(ff&&ff.paciente)||t.paciente,
-      data:(ff&&ff.data)||t.data,
-      meds:(ff&&ff.meds.length)?ff.meds:t.meds
-    };
+    return { paciente:(ff&&ff.paciente)||t.paciente, data:(ff&&ff.data)||t.data, meds:(ff&&ff.meds.length)?ff.meds:t.meds };
   }catch(e){return {error:String(e)};}
 }
 function parseFields(fields){
