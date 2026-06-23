@@ -21,8 +21,7 @@
     padding:max(12px,env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px}
   header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.2px;flex:1}
   header small{display:block;font-weight:400;opacity:.75;font-size:11px}
-  .iconbtn{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:9px;
-    padding:8px 10px;font-size:13px;font-weight:600}
+  .iconbtn{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:600}
   .counts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 14px 4px}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center}
   .stat b{display:block;font-size:20px;line-height:1.1}
@@ -30,42 +29,37 @@
   .stat.alert b{color:var(--red)} .stat.alert{background:var(--redbg);border-color:#fca5a5}
   .chips{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;scrollbar-width:none}
   .chips::-webkit-scrollbar{display:none}
-  .chip{white-space:nowrap;border:1px solid var(--line);background:#fff;color:var(--mut);
-    border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600}
+  .chip{white-space:nowrap;border:1px solid var(--line);background:#fff;color:var(--mut);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600}
   .chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
   .search{padding:0 14px 4px}
   .search input{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:15px}
   main{padding:6px 14px 110px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
-    margin-bottom:10px;box-shadow:0 1px 2px rgba(20,34,58,.04)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(20,34,58,.04)}
   .card .row1{display:flex;align-items:flex-start;gap:8px}
   .card .pac{font-weight:700;font-size:15.5px;flex:1}
   .cardright{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
   .datebadge{font-size:11px;font-weight:700;color:#475569;background:var(--greybg);padding:4px 9px;border-radius:999px;white-space:nowrap}
   .cibtn{background:var(--teal);color:#fff;border:0;border-radius:9px;padding:7px 11px;font-size:12.5px;font-weight:700;white-space:nowrap}
-  .card .meta{color:var(--mut);font-size:12.5px;margin-top:5px}
-  .card .meds{font-size:13px;margin-top:6px;color:#334155;white-space:pre-line}
   .badge{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
   .b-Pendente{background:var(--redbg);color:var(--red)}
   .b-Entregue{background:var(--greenbg);color:var(--green)}
-  .pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:7px;margin-top:8px;margin-right:6px}
-  .pill.pend{background:var(--redbg);color:var(--red)}
-  .pill.ok{background:var(--greenbg);color:var(--green)}
-  .fab{position:fixed;right:16px;bottom:max(18px,env(safe-area-inset-bottom));z-index:30;
-    background:var(--teal);color:#fff;border:0;border-radius:16px;padding:15px 18px;font-size:15px;font-weight:700;
-    box-shadow:0 6px 18px rgba(13,148,136,.4)}
+  .card .meta{color:var(--mut);font-size:12px;margin-top:5px}
+  .mi{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .mi:first-of-type{border-top:0;padding-top:0}
+  .mi-n{font-size:13px;color:#334155}
+  .mi-s{font-size:11.5px;font-weight:700;margin-top:2px}
+  .mi-s.ok{color:var(--green)} .mi-s.pend{color:var(--red)} .mi-s.wait{color:var(--mut)}
+  .mi-c{font-size:11px;color:var(--mut);margin-top:1px}
+  .fab{position:fixed;right:16px;bottom:max(18px,env(safe-area-inset-bottom));z-index:30;background:var(--teal);color:#fff;border:0;border-radius:16px;padding:15px 18px;font-size:15px;font-weight:700;box-shadow:0 6px 18px rgba(13,148,136,.4)}
   .scrim{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;display:flex;align-items:flex-end}
-  .sheet{background:#fff;width:100%;max-height:94vh;border-radius:20px 20px 0 0;overflow-y:auto;
-    padding:6px 16px calc(24px + env(safe-area-inset-bottom))}
+  .sheet{background:#fff;width:100%;max-height:94vh;border-radius:20px 20px 0 0;overflow-y:auto;padding:6px 16px calc(24px + env(safe-area-inset-bottom))}
   .grab{width:42px;height:5px;background:#cbd5e1;border-radius:3px;margin:10px auto 8px}
   .sheet h2{font-size:17px;margin:4px 0 2px}
   .sheet .sub{color:var(--mut);font-size:13px;margin:0 0 6px}
-  .seclabel{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--navy);
-    margin:18px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--line)}
+  .seclabel{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--navy);margin:18px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--line)}
   label.fld{display:block;margin-bottom:11px}
   label.fld span{display:block;font-size:12.5px;color:var(--mut);font-weight:600;margin-bottom:4px}
-  input,select,textarea{font-family:inherit;font-size:15px;width:100%;padding:11px 12px;
-    border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
+  input,select,textarea{font-family:inherit;font-size:15px;width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
   textarea{min-height:62px;resize:vertical}
   .btn{width:100%;border:0;border-radius:13px;padding:14px;font-size:15.5px;font-weight:700;margin-top:8px}
   .btn.primary{background:var(--navy);color:#fff}
@@ -85,16 +79,17 @@
   .seg button{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px;font-weight:700;font-size:13px;margin:0}
   .seg button.onok{background:var(--greenbg);border-color:#86efac;color:var(--green)}
   .seg button.onno{background:var(--redbg);border-color:#fca5a5;color:var(--red)}
-  .prob{margin-top:9px}
-  .login{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:28px 22px;
-    background:linear-gradient(160deg,#1f3864,#2e5496)}
+  .sub2{margin-top:9px}
+  .sub2 span{display:block;font-size:11.5px;color:var(--mut);font-weight:600;margin-bottom:4px}
+  .clog{font-size:11.5px;color:var(--mut);margin-top:8px;background:var(--greybg);border-radius:8px;padding:7px 9px}
+  .clog div{margin-bottom:2px}
+  .login{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:28px 22px;background:linear-gradient(160deg,#1f3864,#2e5496)}
   .login .box{background:#fff;border-radius:18px;padding:24px 20px;max-width:420px;width:100%;margin:0 auto}
   .login h1{margin:0 0 2px;font-size:20px;color:var(--navy)}
   .login p{margin:0 0 18px;color:var(--mut);font-size:13px}
   .err{background:var(--redbg);color:var(--red);border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;margin-top:10px}
   .empty{text-align:center;color:var(--mut);padding:50px 20px;font-size:14px}
-  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#0f172a;color:#fff;
-    padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:60;opacity:0;transition:.25s;pointer-events:none}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#0f172a;color:#fff;padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:60;opacity:0;transition:.25s;pointer-events:none}
   .toast.show{opacity:1}
   .banner{background:var(--amberbg);color:var(--amber);font-size:12.5px;font-weight:600;padding:9px 14px;text-align:center}
 </style>
@@ -140,16 +135,31 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 if(window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-let sb=null, rows=[], filter="Todos", search="", editing=null;
+let sb=null, rows=[], filter="Todos", search="";
 
 function esc(s){return (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1900);}
-function fmt(d){if(!d)return"—";const[y,m,da]=d.split("-");return`${da}/${m}/${y}`;}
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2100);}
+function fmt(d){if(!d)return"—";const p=String(d).slice(0,10).split("-");return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:d;}
 function today(){return new Date().toISOString().slice(0,10);}
-function itensDe(r){ // retorna array de itens; se vazio, deriva do texto de medicamentos
-  if(Array.isArray(r.itens)&&r.itens.length)return r.itens;
-  return (r.medicamentos||"").split("\n").map(s=>s.trim()).filter(Boolean).map(n=>({nome:n,entregue:null,problema:null}));
+
+// itens normalizados: {nome, entregue(true/false/null), data_retirada, comentarios:[{txt,em}]}
+function itensDe(r){
+  let arr=(Array.isArray(r.itens)&&r.itens.length)?r.itens
+    :(r.medicamentos||"").split("\n").map(s=>s.trim()).filter(Boolean).map(n=>({nome:n}));
+  return arr.map(it=>({
+    nome: it.nome,
+    entregue: (it.entregue===true||it.entregue===false)?it.entregue:null,
+    data_retirada: it.data_retirada||null,
+    comentarios: Array.isArray(it.comentarios)?it.comentarios:(it.problema?[{txt:it.problema,em:null}]:[])
+  }));
 }
+function statusDe(itens){
+  const conf=itens.filter(i=>i.entregue!==null);
+  if(!conf.length)return "Protocolado";
+  if(itens.every(i=>i.entregue===true))return "Entregue";
+  return "Pendente";
+}
+function ultComent(it){return it.comentarios.length?it.comentarios[it.comentarios.length-1].txt:"";}
 
 // ---------- INIT / LOGIN ----------
 function configured(){return SUPABASE_URL && !SUPABASE_URL.includes("COLE_") && SUPABASE_ANON && !SUPABASE_ANON.includes("COLE_");}
@@ -217,36 +227,34 @@ function render(){
   const el=document.getElementById("list");
   if(!list.length){el.innerHTML=`<div class="empty">Nenhum processo aqui.<br>Toque em <b>＋ Novo</b> para começar.</div>`;return;}
   el.innerHTML=list.map(r=>{
-    const proto=r.status==="Protocolado";
+    const st=r.status||"Protocolado";
+    const itens=itensDe(r);
     let right;
-    if(proto){
-      right=`<div class="cardright">
-        <span class="datebadge">${fmt(r.data_protocolo)}</span>
-        <button class="cibtn" data-ci="${r.id}">Check-in Farmácia</button>
-      </div>`;
-    }else{
-      right=`<span class="badge b-${r.status}">${r.status}</span>`;
+    if(st==="Entregue"){ right=`<span class="badge b-Entregue">Entregue</span>`; }
+    else{
+      const badge = st==="Pendente" ? `<span class="badge b-Pendente">Pendente</span>` : `<span class="datebadge">${fmt(r.data_protocolo)}</span>`;
+      right=`<div class="cardright">${badge}<button class="cibtn" data-ci="${r.id}">Check-in Farmácia</button></div>`;
     }
-    const pills=[];
-    if(r.status==="Pendente"){
-      itensDe(r).filter(i=>i.entregue===false).forEach(i=>pills.push(`<span class="pill pend">⚠ ${esc(i.nome)}: ${esc(i.problema||"não entregue")}</span>`));
-    }
-    if(r.status==="Entregue")pills.push(`<span class="pill ok">✔ Todos entregues</span>`);
+    const mi=itens.map(it=>{
+      let s;
+      if(it.entregue===true) s=`<div class="mi-s ok">✔ retirado em ${fmt(it.data_retirada)}</div>`;
+      else if(it.entregue===false) s=`<div class="mi-s pend">⚠ não entregue${ultComent(it)?': '+esc(ultComent(it)):''}</div>`;
+      else s=`<div class="mi-s wait">aguardando check-in</div>`;
+      const extra = (it.comentarios.length>1)?`<div class="mi-c">${it.comentarios.length} comentário(s)</div>`:"";
+      return `<div class="mi"><div class="mi-n">${esc(it.nome)}</div>${s}${extra}</div>`;
+    }).join("");
     return `<div class="card" data-id="${r.id}">
       <div class="row1"><div class="pac">${esc(r.paciente||"—")}</div>${right}</div>
-      <div class="meta">prev. retirada ${fmt(r.previsao_retirada)}</div>
-      <div class="meds">${esc(r.medicamentos||"")}</div>
-      ${pills.join("")}
+      <div class="meta">protocolo ${fmt(r.data_protocolo)} · retorno p/ retirada ${fmt(r.previsao_retirada)}</div>
+      ${mi}
     </div>`;
   }).join("");
-  document.querySelectorAll(".card").forEach(c=>c.onclick=e=>{
-    if(e.target.closest("[data-ci]"))return;
-    openForm(c.dataset.id);
-  });
+  document.querySelectorAll(".card").forEach(c=>c.onclick=e=>{ if(e.target.closest("[data-ci]"))return; openForm(c.dataset.id); });
   document.querySelectorAll("[data-ci]").forEach(b=>b.onclick=e=>{e.stopPropagation();openCheckin(b.dataset.ci);});
 }
 
-// ---------- FORM NOVO/EDITAR (simplificado) ----------
+// ---------- FORM NOVO/EDITAR ----------
+let editing=null;
 function openForm(id){
   editing = id ? rows.find(r=>r.id===id) : null;
   const r = editing || {data_protocolo:today()};
@@ -264,7 +272,7 @@ function openForm(id){
     <div class="seclabel">Dados</div>
     <label class="fld"><span>Paciente *</span><input id="f_pac" value="${esc(r.paciente)}"></label>
     <label class="fld"><span>Medicamento(s) — um por linha</span><textarea id="f_med">${esc(r.medicamentos)}</textarea></label>
-    <label class="fld"><span>Data do protocolo</span><input id="f_prot" type="date" value="${r.data_protocolo||""}"></label>
+    <label class="fld"><span>Data do protocolo</span><input id="f_prot" type="date" value="${(r.data_protocolo||'').slice(0,10)}"></label>
     <button class="btn teal" id="saveBtn">${id?"Salvar":"Criar processo"}</button>
     ${id?'<button class="btn danger" id="delBtn">Excluir processo</button>':''}
     <button class="btn ghost" id="closeBtn">Cancelar</button>
@@ -282,9 +290,8 @@ async function save(scrim){
   const med=document.getElementById("f_med").value;
   const lines=med.split("\n").map(s=>s.trim()).filter(Boolean);
   const prev=editing?itensDe(editing):[];
-  const itens=lines.map(n=>{const m=prev.find(p=>p.nome===n);return m||{nome:n,entregue:null,problema:null};});
-  const rec={paciente:pac, medicamentos:med||null, data_protocolo:v("f_prot")||null, itens};
-  if(!editing)rec.status="Protocolado";
+  const itens=lines.map(n=>{const m=prev.find(p=>p.nome===n);return m||{nome:n,entregue:null,data_retirada:null,comentarios:[]};});
+  const rec={paciente:pac, medicamentos:med||null, data_protocolo:v("f_prot")||null, itens, status:statusDe(itens)};
   let res;
   if(editing) res=await sb.from("processos").update(rec).eq("id",editing.id);
   else res=await sb.from("processos").insert(rec);
@@ -298,46 +305,77 @@ async function del(id,scrim){
   scrim.remove();toast("Excluído");load();
 }
 
-// ---------- CHECK-IN FARMÁCIA (lista por medicamento) ----------
+// ---------- CHECK-IN FARMÁCIA (por medicamento) ----------
 function openCheckin(id){
   const r=rows.find(x=>x.id===id); if(!r)return;
-  const itens=itensDe(r).map(i=>({nome:i.nome,entregue:i.entregue===false?false:true,problema:i.problema||""}));
+  // copia de trabalho; null assume "entregue" por padrão no 1º check-in, pendentes continuam pendentes
+  const work=itensDe(r).map(i=>({
+    nome:i.nome,
+    entregue: i.entregue===false?false:true,
+    data_retirada: i.data_retirada||"",
+    comentarios: i.comentarios.slice(),
+    novo:""
+  }));
   const scrim=document.createElement("div");scrim.className="scrim";
   scrim.innerHTML=`<div class="sheet">
     <div class="grab"></div>
     <h2>Check-in Farmácia</h2>
-    <p class="sub">${esc(r.paciente)} — confirme a entrega de cada medicamento</p>
+    <p class="sub">${esc(r.paciente)} — confirme cada medicamento</p>
     <div id="ciList"></div>
     <button class="btn teal" id="ciConfirm">Confirmar</button>
     <button class="btn ghost" id="ciClose">Cancelar</button>
   </div>`;
   document.body.appendChild(scrim);
   const listEl=scrim.querySelector("#ciList");
+  function readInputs(){
+    work.forEach((it,k)=>{
+      const d=listEl.querySelector(`[data-d="${k}"]`); if(d)it.data_retirada=d.value;
+      const c=listEl.querySelector(`[data-c="${k}"]`); if(c)it.novo=c.value;
+    });
+  }
   function draw(){
-    listEl.innerHTML=itens.map((it,k)=>`
-      <div class="citem">
+    listEl.innerHTML=work.map((it,k)=>{
+      const log=it.comentarios.length?`<div class="clog">${it.comentarios.map(c=>`<div>• ${esc(c.txt)}${c.em?' ('+fmt(c.em)+')':''}</div>`).join("")}</div>`:"";
+      const dateRow=it.entregue?`<div class="sub2"><span>Data de retirada</span><input type="date" data-d="${k}" value="${it.data_retirada||today()}"></div>`:"";
+      return `<div class="citem">
         <div class="nm">${esc(it.nome)}</div>
         <div class="seg">
           <button type="button" data-ok="${k}" class="${it.entregue?'onok':''}">Entregue</button>
           <button type="button" data-no="${k}" class="${it.entregue?'':'onno'}">Não entregue</button>
         </div>
-        ${it.entregue?'':`<div class="prob"><input data-p="${k}" placeholder="Qual o problema?" value="${esc(it.problema)}"></div>`}
-      </div>`).join("");
-    listEl.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>{itens[b.dataset.ok].entregue=true;draw();});
-    listEl.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>{itens[b.dataset.no].entregue=false;draw();});
-    listEl.querySelectorAll("[data-p]").forEach(inp=>inp.oninput=()=>{itens[inp.dataset.p].problema=inp.value;});
+        ${dateRow}
+        ${log}
+        <div class="sub2"><span>${it.entregue?'Comentário (opcional)':'Problema / comentário *'}</span><input data-c="${k}" placeholder="${it.entregue?'observação...':'descreva o que faltou...'}" value="${esc(it.novo)}"></div>
+      </div>`;
+    }).join("");
+    listEl.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.ok].entregue=true;draw();});
+    listEl.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>{readInputs();work[b.dataset.no].entregue=false;draw();});
   }
   draw();
   scrim.addEventListener("click",e=>{if(e.target===scrim)scrim.remove();});
   scrim.querySelector("#ciClose").onclick=()=>scrim.remove();
   scrim.querySelector("#ciConfirm").onclick=async ()=>{
-    const faltaProb=itens.find(i=>i.entregue===false && !i.problema.trim());
-    if(faltaProb){toast("Descreva o problema do item não entregue");return;}
-    const todosOk=itens.every(i=>i.entregue!==false);
-    const rec={itens, status: todosOk?"Entregue":"Pendente", data_entrega:today()};
-    const {error}=await sb.from("processos").update(rec).eq("id",id);
+    readInputs();
+    for(const it of work){
+      if(!it.entregue && !it.novo.trim() && !it.comentarios.length){toast("Descreva o problema de: "+it.nome);return;}
+    }
+    const orig=itensDe(r);
+    const itens=work.map((it,k)=>{
+      const comentarios=it.comentarios.slice();
+      if(it.novo.trim())comentarios.push({txt:it.novo.trim(),em:today()});
+      return {
+        nome:it.nome,
+        entregue:it.entregue,
+        data_retirada: it.entregue ? (it.data_retirada||today()) : null,
+        comentarios
+      };
+    });
+    const {error}=await sb.from("processos").update({itens,status:statusDe(itens)}).eq("id",id);
     if(error){toast("Erro: "+error.message);return;}
-    scrim.remove(); toast(todosOk?"Entregue ✔":"Registrado com pendência"); load();
+    scrim.remove();
+    const st=statusDe(itens);
+    toast(st==="Entregue"?"Tudo entregue ✔":"Salvo — há itens pendentes");
+    load();
   };
 }
 
