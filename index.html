@@ -368,14 +368,38 @@ async function readLME(file){
   try{
     const buf=await file.arrayBuffer();
     const pdf=await pdfjsLib.getDocument({data:buf}).promise;
-    let items=[];
+    let items=[],fields=[];
     for(let p=1;p<=pdf.numPages;p++){
       const page=await pdf.getPage(p);
       const tc=await page.getTextContent();
       tc.items.forEach(i=>{if(i.str&&i.str.trim())items.push({s:i.str,x:Math.round(i.transform[4]),y:Math.round(i.transform[5])});});
+      const ann=await page.getAnnotations();
+      ann.forEach(a=>{if(a.fieldName!==undefined)fields.push({name:a.fieldName,val:Array.isArray(a.fieldValue)?a.fieldValue.join(","):a.fieldValue,x:Math.round(a.rect[0]),y:Math.round(a.rect[3])});});
     }
-    return parseLME(items);
+    const t=parseLME(items), ff=parseFields(fields);
+    return {
+      paciente:(ff&&ff.paciente)||t.paciente,
+      data:(ff&&ff.data)||t.data,
+      meds:(ff&&ff.meds.length)?ff.meds:t.meds
+    };
   }catch(e){return {error:String(e)};}
+}
+function parseFields(fields){
+  const isInt=v=>/^\d+$/.test(String(v).trim());
+  const f=fields.filter(a=>a.val!=null&&String(a.val).trim()!=="");
+  if(!f.length)return null;
+  const out={paciente:null,data:null,meds:[]};
+  const pac=f.find(a=>/paciente/i.test(a.name)&&!/m[ãa]e|respons|m[eé]dico|telefone|documento|e-?mail|correio/i.test(a.name));
+  if(pac)out.paciente=String(pac.val).trim();
+  const dt=f.find(a=>/\b\d{2}\/\d{2}\/\d{4}\b/.test(String(a.val)));
+  if(dt)out.data=String(dt.val).match(/\b\d{2}\/\d{2}\/\d{4}\b/)[0];
+  const medFields=f.filter(a=>/med/i.test(a.name)&&!isInt(a.val)&&String(a.val).trim().length>3).sort((a,b)=>b.y-a.y);
+  const qFields=f.filter(a=>isInt(a.val));
+  for(const m of medFields){
+    const near=qFields.filter(q=>Math.abs(q.y-m.y)<=8).sort((a,b)=>a.x-b.x);
+    out.meds.push({nome:String(m.val).trim(),qtd_mes:near[0]?String(near[0].val).trim():null});
+  }
+  return (out.paciente||out.meds.length)?out:null;
 }
 function parseLME(items){
   const TOL=6;
