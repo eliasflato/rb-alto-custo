@@ -17,20 +17,17 @@
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
     background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
   .hidden{display:none!important}
-  /* top bar */
   header{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;
     padding:max(12px,env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px}
   header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.2px;flex:1}
   header small{display:block;font-weight:400;opacity:.75;font-size:11px}
   .iconbtn{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:9px;
     padding:8px 10px;font-size:13px;font-weight:600}
-  /* counts */
   .counts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px 4px}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
   .stat b{display:block;font-size:20px;line-height:1.1}
   .stat span{font-size:10.5px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
   .stat.alert b{color:var(--red)} .stat.alert{background:var(--redbg);border-color:#fca5a5}
-  /* filter chips */
   .chips{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;scrollbar-width:none}
   .chips::-webkit-scrollbar{display:none}
   .chip{white-space:nowrap;border:1px solid var(--line);background:#fff;color:var(--mut);
@@ -38,17 +35,16 @@
   .chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
   .search{padding:0 14px 4px}
   .search input{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:15px}
-  /* list */
   main{padding:6px 14px 110px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
     margin-bottom:10px;box-shadow:0 1px 2px rgba(20,34,58,.04)}
   .card .row1{display:flex;align-items:center;gap:8px}
   .card .pac{font-weight:700;font-size:15.5px;flex:1}
   .card .meta{color:var(--mut);font-size:12.5px;margin-top:3px}
-  .card .meds{font-size:13px;margin-top:6px;color:#334155}
+  .card .meds{font-size:13px;margin-top:6px;color:#334155;white-space:pre-line}
   .badge{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;white-space:nowrap}
   .b-Protocolado{background:var(--greybg);color:#475569}
-  .b-Em\.análise,.b-analise{background:#e0ecff;color:var(--blue)}
+  .b-analise{background:#e0ecff;color:var(--blue)}
   .b-Liberado{background:#ccfbf1;color:var(--teal)}
   .b-Pendente{background:var(--redbg);color:var(--red)}
   .b-Retirado{background:var(--amberbg);color:var(--amber)}
@@ -57,11 +53,9 @@
   .pill.pend{background:var(--redbg);color:var(--red)}
   .pill.ok{background:var(--greenbg);color:var(--green)}
   .pill.wait{background:var(--amberbg);color:var(--amber)}
-  /* FAB */
   .fab{position:fixed;right:16px;bottom:max(18px,env(safe-area-inset-bottom));z-index:30;
     background:var(--teal);color:#fff;border:0;border-radius:16px;padding:15px 18px;font-size:15px;font-weight:700;
     box-shadow:0 6px 18px rgba(13,148,136,.4)}
-  /* sheet/modal */
   .scrim{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;display:flex;align-items:flex-end}
   .sheet{background:#fff;width:100%;max-height:94vh;border-radius:20px 20px 0 0;overflow-y:auto;
     padding:6px 16px calc(24px + env(safe-area-inset-bottom))}
@@ -80,12 +74,18 @@
   .btn.teal{background:var(--teal);color:#fff}
   .btn.ghost{background:var(--greybg);color:var(--navy)}
   .btn.danger{background:#fff;color:var(--red);border:1px solid #fca5a5}
-  /* signature */
   .sigwrap{border:1px dashed #94a3b8;border-radius:12px;background:#fafcff;position:relative}
   canvas#sig{width:100%;height:160px;display:block;touch-action:none;border-radius:12px}
   .sighint{position:absolute;top:8px;left:12px;color:#94a3b8;font-size:12px;pointer-events:none}
   .sigsaved{font-size:12px;color:var(--green);font-weight:700;margin-top:6px}
-  /* login */
+  .imp{border:1.5px dashed var(--teal);background:#f0fdfa;border-radius:13px;padding:14px;text-align:center;margin:8px 0 2px}
+  .imp p{margin:0 0 4px;font-size:13px;color:#0f766e;font-weight:600}
+  .imp small{color:var(--mut);font-weight:400;font-size:11.5px}
+  .impstatus{font-size:12.5px;font-weight:700;margin-top:9px}
+  .impstatus.ok{color:var(--green)} .impstatus.err{color:var(--red)}
+  .revise{background:var(--amberbg);color:var(--amber);font-size:12px;font-weight:700;
+    border-radius:9px;padding:8px 11px;margin:8px 0}
+  .filled input,.filled textarea{background:#f0fdfa;border-color:#5eead4}
   .login{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:28px 22px;
     background:linear-gradient(160deg,#1f3864,#2e5496)}
   .login .box{background:#fff;border-radius:18px;padding:24px 20px;max-width:420px;width:100%;margin:0 auto}
@@ -102,9 +102,9 @@
 </head>
 <body>
 
-<!-- ====== CONFIG: cole aqui os dados do projeto Supabase NOVO ====== -->
+<!-- ====== CONFIG ====== -->
 <script>
-  const SUPABASE_URL  = "https://rtaiuhhedyqcmhwtdtlj.supabase.co";  // projeto rb-alto-custo
+  const SUPABASE_URL  = "https://rtaiuhhedyqcmhwtdtlj.supabase.co";
   const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0YWl1aGhlZHlxY21od3RkdGxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjUwMzEsImV4cCI6MjA5Nzc0MTAzMX0.zWkZNV5s7nrpmxvvPZjIo7y5m3_krI6SJR-nnmnhNlA";
 </script>
 
@@ -142,8 +142,10 @@
 
 <div id="toast" class="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+if(window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 const STATUSES = ["Protocolado","Em análise","Liberado","Pendente","Retirado","Entregue"];
 const RESP = ["Assist. Social","Farmácia","Médico","Paciente"];
 const CONF = ["Não conferido","OK","Divergência"];
@@ -221,7 +223,7 @@ function buildChips(){
 // ---------- RENDER LIST ----------
 function matchesFilter(r){
   switch(filter){
-    case "Pendentes": return r.pendencia && !r.data_resolucao || r.status==="Pendente";
+    case "Pendentes": return (r.pendencia && !r.data_resolucao) || r.status==="Pendente";
     case "Aguardando retirada": return r.status==="Liberado";
     case "A conferir na chegada": return r.status==="Retirado" && r.conf_chegada!=="OK";
     case "Em análise": return r.status==="Em análise" || r.status==="Protocolado";
@@ -262,6 +264,15 @@ function openForm(id){
   scrim.innerHTML=`<div class="sheet" id="sheet">
     <div class="grab"></div>
     <h2>${id?"Editar processo":"Novo processo"}</h2>
+
+    ${id?"":`<div class="imp">
+      <p>📄 Anexar LME (PDF)</p>
+      <small>preenche paciente, data e medicações automaticamente</small>
+      <input type="file" id="f_pdf" accept="application/pdf" style="display:none">
+      <button class="btn teal" id="impBtn" type="button" style="margin-top:8px">Selecionar PDF do LME</button>
+      <div id="impStatus" class="impstatus"></div>
+    </div>
+    <div id="reviseBox"></div>`}
 
     <div class="seclabel">Dados do processo</div>
     <div class="two">
@@ -314,6 +325,77 @@ function openForm(id){
   initSig(r.assinatura);
   document.getElementById("saveBtn").onclick=()=>save(scrim);
   if(id)document.getElementById("delBtn").onclick=()=>del(id,scrim);
+  if(!id)wireImport();
+}
+
+// ---------- IMPORTAR LME (PDF) ----------
+function wireImport(){
+  const btn=document.getElementById("impBtn"); if(!btn)return;
+  const inp=document.getElementById("f_pdf"); const st=document.getElementById("impStatus");
+  btn.onclick=()=>inp.click();
+  inp.onchange=async ()=>{
+    const file=inp.files[0]; if(!file)return;
+    if(!window.pdfjsLib){st.className="impstatus err";st.textContent="Leitor de PDF não carregou. Preencha manualmente.";return;}
+    st.className="impstatus";st.textContent="Lendo "+file.name+"…";
+    const res=await readLME(file);
+    if(res.error){st.className="impstatus err";st.textContent="Não consegui ler este PDF. Preencha manualmente.";return;}
+    const setF=(id,val)=>{if(val){const e=document.getElementById(id);e.value=val;e.closest("label.fld").classList.add("filled");}};
+    setF("f_pac",res.paciente);
+    if(res.data){const m=res.data.match(/(\d{2})\/(\d{2})\/(\d{4})/);if(m){const e=document.getElementById("f_prot");e.value=`${m[3]}-${m[2]}-${m[1]}`;e.closest("label.fld").classList.add("filled");}}
+    setF("f_cid",res.cid);
+    if(res.meds&&res.meds.length){
+      const txt=res.meds.map(x=>x.nome+(x.qtd_mes?` — ${x.qtd_mes}/mês`:"")).join("\n");
+      setF("f_med",txt);
+    }
+    const achou=[res.paciente&&"paciente",res.data&&"data",res.meds&&res.meds.length&&"medicação"].filter(Boolean);
+    st.className="impstatus ok";st.textContent="✔ Lido: "+(achou.join(", ")||"nada reconhecido");
+    document.getElementById("reviseBox").innerHTML='<div class="revise">⚠ Confira os campos preenchidos antes de salvar — a leitura automática pode falhar.</div>';
+  };
+}
+async function readLME(file){
+  try{
+    const buf=await file.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+    let items=[];
+    for(let p=1;p<=pdf.numPages;p++){
+      const page=await pdf.getPage(p);
+      const tc=await page.getTextContent();
+      tc.items.forEach(i=>{if(i.str&&i.str.trim())items.push({s:i.str,x:Math.round(i.transform[4]),y:Math.round(i.transform[5])});});
+    }
+    return parseLME(items);
+  }catch(e){return {error:String(e)};}
+}
+function parseLME(items){
+  const TOL=6;
+  items=items.filter(i=>i.s.trim()!=="").sort((a,b)=>b.y-a.y||a.x-b.x);
+  const lines=[];
+  for(const it of items){let L=lines.find(l=>Math.abs(l.y-it.y)<=TOL);if(!L){L={y:it.y,items:[]};lines.push(L);}L.items.push(it);}
+  lines.forEach(l=>l.items.sort((a,b)=>a.x-b.x));
+  const text=l=>l.items.map(i=>i.s).join(" ").replace(/\s+/g," ").trim();
+  const idxOf=re=>lines.findIndex(l=>re.test(text(l)));
+  const out={paciente:null,data:null,cid:null,meds:[]};
+  const iPac=idxOf(/Nome\s*completo\s*do\s*Paciente/i);
+  if(iPac>=0&&lines[iPac+1])out.paciente=lines[iPac+1].items.filter(i=>i.x<450).map(i=>i.s).join(" ").replace(/\s+/g," ").trim()||null;
+  const iData=idxOf(/Data\s*da\s*solicita/i);
+  const dateRe=/\b(\d{2}\/\d{2}\/\d{4})\b/;
+  let datas=[];
+  for(const l of lines){const m=text(l).match(dateRe);if(m)datas.push({y:l.y,d:m[1]});}
+  if(iData>=0){const labY=lines[iData].y;const d=datas.filter(x=>x.y<labY).sort((a,b)=>b.y-a.y);out.data=(d[0]&&d[0].d)||null;}
+  if(!out.data&&datas.length)out.data=datas[0].d;
+  const iCid=idxOf(/CID\s*-?\s*10/i);
+  if(iCid>=0&&lines[iCid+1]){const c=lines[iCid+1].items.filter(i=>i.x<110).map(i=>i.s).join("").match(/[A-Z]\d{2}(\.\d)?/i);if(c)out.cid=c[0].toUpperCase();}
+  const iMedHdr=idxOf(/m[eê]s/i);
+  const iEnd=idxOf(/9\s*-?\s*CID|Diagn[oó]stico/i);
+  for(let k=iMedHdr+1;k<(iEnd<0?lines.length:iEnd);k++){
+    const l=lines[k];if(!l)continue;
+    const rownum=l.items.find(i=>i.x<70&&/^[1-6]$/.test(i.s.trim()));
+    if(!rownum)continue;
+    const nome=l.items.filter(i=>i.x>=55&&i.x<366&&!/^[1-6]$/.test(i.s.trim())).map(i=>i.s).join(" ").replace(/\s+/g," ").trim();
+    if(!nome)continue;
+    const qtds=l.items.filter(i=>i.x>=366&&/^\d+$/.test(i.s.trim())).sort((a,b)=>a.x-b.x).map(i=>i.s.trim());
+    out.meds.push({nome,qtd_mes:qtds[0]||null,qtds});
+  }
+  return out;
 }
 
 // ---------- SIGNATURE PAD ----------
