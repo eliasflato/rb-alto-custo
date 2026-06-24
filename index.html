@@ -234,11 +234,12 @@ function renderCounts(){
   const ret=rows.filter(r=>needCheckout(itensDe(r))).length;
   const fal=rows.filter(r=>needFaltantes(itensDe(r))).length;
   const conf=rows.filter(r=>needEntrega(itensDe(r))).length;
-  const cards=[["Total",rows.length,false],["Retirada",ret,false],["Faltantes",fal,fal>0],["Conferência",conf,false]];
+  const ativos=rows.filter(r=>stOf(r)!=="Entregue").length;
+  const cards=[["Ativos",ativos,false],["Retirada",ret,false],["Faltantes",fal,fal>0],["Conferência",conf,false]];
   document.getElementById("counts").innerHTML=cards.map(([l,n,a])=>`<div class="stat${a?' alert':''}"><b>${n}</b><span>${l}</span></div>`).join("");
 }
 function buildChips(){
-  const opts=["Todos","A dar entrada","Aguardando retirada","Faltantes","Conferência clínica","Entregues"];
+  const opts=["Todos","A dar entrada","Aguardando retirada","Faltantes","Conferência clínica"];
   document.getElementById("chips").innerHTML=opts.map(o=>`<button class="chip${o===filter?' on':''}" data-f="${o}">${o}</button>`).join("");
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{filter=b.dataset.f;buildChips();render();});
 }
@@ -249,8 +250,7 @@ function matchesFilter(r){
     case "Aguardando retirada": return needCheckout(its);
     case "Faltantes": return needFaltantes(its);
     case "Conferência clínica": return needEntrega(its);
-    case "Entregues": return stOf(r)==="Entregue";
-    default: return true;
+    default: return stOf(r)!=="Entregue";
   }
 }
 function medLine(it){
@@ -289,7 +289,7 @@ function render(){
     const mi=its.map(it=>`<div class="mi"><div class="mi-n">${esc(it.nome)}</div>${medLine(it)}</div>`).join("");
     return `<div class="card" data-id="${r.id}">
       <div class="row1"><div class="pac">${esc(r.paciente||"—")}</div><div class="cardright">${badge}${btns}</div></div>
-      <div class="meta">protocolo ${fmt(r.data_protocolo)} · retorno p/ retirada ${fmt(r.previsao_retirada)}</div>
+      <div class="meta">protocolo ${fmt(r.data_protocolo)}</div>
       ${mi}
     </div>`;
   }).join("");
@@ -368,16 +368,17 @@ function openDetail(id){
     return `<div class="citem"><div class="nm">${esc(it.nome)}</div>${L.map(l=>`<div class="tl">${l}</div>`).join("")}${log}</div>`;
   }).join("");
   const scrim=mkScrim(`<div class="sheet"><div class="grab"></div>
-    <h2>${esc(r.paciente)}</h2>
-    <p class="sub">protocolo ${fmt(r.data_protocolo)} · ${stOf(r)}</p>
+    <div style="display:flex;align-items:flex-start;gap:8px">
+      <div style="flex:1"><h2 style="margin:0">${esc(r.paciente)}</h2><p class="sub">protocolo ${fmt(r.data_protocolo)} · ${stOf(r)}</p></div>
+      ${can("excluir")?'<button id="delBtn" style="background:none;border:1px solid #fca5a5;border-radius:8px;color:var(--red);font-weight:700;font-size:12px;width:auto;margin:0;padding:6px 10px;white-space:nowrap">🗑 Excluir</button>':''}
+    </div>
     <div class="seclabel">Medicamentos e histórico</div>${tl}
     <p class="sub" style="margin-top:10px">Dados não editáveis. Comentários são feitos nas etapas (check-in, check-out, faltantes, entrega).</p>
-    ${can("excluir")?'<button class="btn danger" id="delBtn">Excluir processo (cadastro errado)</button>':''}
     <button class="btn ghost" id="closeBtn">Fechar</button></div>`);
   scrim.querySelector("#closeBtn").onclick=()=>scrim.remove();
   const _db=scrim.querySelector("#delBtn"); if(_db)_db.onclick=async()=>{
     if(!can("excluir")){toast("Só "+PERMS.excluir[0]+" pode excluir");return;}
-    if(!confirm("Excluir este processo?"))return;
+    if(!confirm("Excluir o processo INTEIRO de "+r.paciente+"?\n\nApaga todas as etapas e o histórico deste processo. Esta ação NÃO tem retorno."))return;
     const {error}=await sb.from("processos").delete().eq("id",id);
     if(error){toast("Erro: "+error.message);return;}
     scrim.remove();toast("Excluído");load();
