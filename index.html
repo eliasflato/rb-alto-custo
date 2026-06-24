@@ -499,7 +499,7 @@ function openBulkCheckout(){
   const listEl=scrim.querySelector("#blList");
   listEl.innerHTML=keys.map((k,i)=>{const tot=groups[k].reduce((s,x)=>s+x.falta,0);
     return `<div class="citem"><div class="nm">${esc(k)}</div>
-      <div class="prev">a receber: ${tot} un · ${groups[k].length} paciente(s)</div>
+      <div style="display:inline-block;background:#dbeafe;color:var(--navy);font-weight:800;font-size:15px;padding:7px 13px;border-radius:10px;margin-bottom:10px">📦 a receber: ${tot} un · ${groups[k].length} paciente(s)</div>
       <div class="sub2"><span>Total recebido agora</span><input type="number" inputmode="numeric" data-k="${i}" value="${tot}"></div>
       <div class="sub2"><span>Data da retirada</span><input type="date" data-d="${i}" value="${today()}"></div>
       <div class="sub2"><span>Falta coletiva — justificativa (se receber menos)</span><input data-j="${i}" placeholder="ex.: faltou na farmácia"></div>
