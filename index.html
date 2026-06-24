@@ -144,7 +144,14 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 if(window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-let sb=null, rows=[], filter="Todos", search="", view="proc";
+let sb=null, rows=[], filter="Todos", search="", view="proc", meEmail="";
+const PERMS={
+  novo:["atendimento.guarulhos@renalbrasil.com.br"],
+  checkin:["gilmvanso@gmail.com"],
+  checkout:["gilmvanso@gmail.com"],
+  entrega:["atendimento.guarulhos@renalbrasil.com.br"]
+};
+function can(step){return (PERMS[step]||[]).map(x=>x.toLowerCase()).includes((meEmail||"").toLowerCase());}
 
 function esc(s){return (s==null?"":String(s)).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200);}
@@ -210,8 +217,8 @@ document.getElementById("newBtn").onclick=()=>openForm();
 document.getElementById("q").addEventListener("input",e=>{search=e.target.value.toLowerCase();render();});
 document.getElementById("tabProc").onclick=()=>{view="proc";setTabs();render();};
 document.getElementById("tabHist").onclick=()=>{view="hist";setTabs();render();};
-function setTabs(){document.getElementById("tabProc").classList.toggle("on",view==="proc");document.getElementById("tabHist").classList.toggle("on",view==="hist");document.getElementById("procWrap").classList.toggle("hidden",view!=="proc");document.getElementById("newBtn").classList.toggle("hidden",view!=="proc");}
-function showApp(s){document.getElementById("login").classList.add("hidden");document.getElementById("app").classList.remove("hidden");document.getElementById("who").textContent="· "+(s.user.email||"");buildChips();setTabs();load();}
+function setTabs(){document.getElementById("tabProc").classList.toggle("on",view==="proc");document.getElementById("tabHist").classList.toggle("on",view==="hist");document.getElementById("procWrap").classList.toggle("hidden",view!=="proc");document.getElementById("newBtn").classList.toggle("hidden",!(view==="proc"&&can("novo")));}
+function showApp(s){meEmail=(s.user.email||"");document.getElementById("login").classList.add("hidden");document.getElementById("app").classList.remove("hidden");document.getElementById("who").textContent="· "+meEmail;buildChips();setTabs();load();}
 async function load(){const {data,error}=await sb.from("processos").select("*").order("created_at",{ascending:false});if(error){toast("Erro ao carregar: "+error.message);return;}rows=data||[];render();}
 
 // ---------- COUNTS + CHIPS ----------
@@ -267,10 +274,10 @@ function render(){
     else if(st==="Aguardando conferência")badge=`<span class="badge b-conf">Conferir clínica</span>`;
     else badge=`<span class="datebadge">${fmt(r.data_protocolo)}</span>`;
     let btns="";
-    if(st!=="Entregue"&&needCheckin(its))btns+=`<button class="cibtn" data-ci="${r.id}">Check-in (docs)</button>`;
-    if(needCheckout(its))btns+=`<button class="cibtn out" data-co="${r.id}">Check-out (retirada)</button>`;
-    if(needFaltantes(its))btns+=`<button class="cibtn falt" data-fa="${r.id}">Faltantes (check-out)</button>`;
-    if(needEntrega(its))btns+=`<button class="cibtn clin" data-en="${r.id}">Entrega na clínica</button>`;
+    if(st!=="Entregue"&&needCheckin(its)&&can("checkin"))btns+=`<button class="cibtn" data-ci="${r.id}">Check-in (docs)</button>`;
+    if(needCheckout(its)&&can("checkout"))btns+=`<button class="cibtn out" data-co="${r.id}">Check-out (retirada)</button>`;
+    if(needFaltantes(its)&&can("checkout"))btns+=`<button class="cibtn falt" data-fa="${r.id}">Faltantes (check-out)</button>`;
+    if(needEntrega(its)&&can("entrega"))btns+=`<button class="cibtn clin" data-en="${r.id}">Entrega na clínica</button>`;
     const mi=its.map(it=>`<div class="mi"><div class="mi-n">${esc(it.nome)}</div>${medLine(it)}</div>`).join("");
     return `<div class="card" data-id="${r.id}">
       <div class="row1"><div class="pac">${esc(r.paciente||"—")}</div><div class="cardright">${badge}${btns}</div></div>
@@ -313,6 +320,7 @@ function renderHist(){
 
 // ---------- NOVO ----------
 function openForm(){
+  if(!can("novo")){toast("Sem permissão para adicionar paciente");return;}
   const scrim=mkScrim(`<div class="sheet"><div class="grab"></div><h2>Novo processo</h2>
     <div class="imp"><p>📄 Anexar LME (PDF)</p><small>preenche paciente, data e medicações automaticamente</small>
       <input type="file" id="f_pdf" accept="application/pdf" style="display:none">
@@ -369,6 +377,7 @@ function openDetail(id){
 
 // ---------- CHECK-IN ----------
 function openCheckin(id){
+  if(!can("checkin")){toast("Só "+PERMS.checkin[0]+" pode fazer o check-in");return;}
   const r=rows.find(x=>x.id===id); if(!r)return;
   const work=itensDe(r).map(i=>({...i, entrada:i.entrada===false?false:true, novo:""}));
   const scrim=mkScrim(`<div class="sheet"><div class="grab"></div>
@@ -401,6 +410,7 @@ function openCheckin(id){
 
 // ---------- CHECK-OUT (retirada) e FALTANTES ----------
 function openCheckout(id,faltantes){
+  if(!can("checkout")){toast("Só "+PERMS.checkout[0]+" pode fazer o check-out");return;}
   const r=rows.find(x=>x.id===id); if(!r)return;
   const all=itensDe(r);
   const work=all.map(i=>({...i}));
@@ -461,6 +471,7 @@ function openCheckout(id,faltantes){
 
 // ---------- ENTREGA NA CLÍNICA ----------
 function openEntrega(id){
+  if(!can("entrega")){toast("Só "+PERMS.entrega[0]+" pode fazer a entrega na clínica");return;}
   const r=rows.find(x=>x.id===id); if(!r)return;
   const work=itensDe(r).map(i=>({...i,_c:i.clinica===false?false:true,_obs:i.clinica_obs||"",_d:i.clinica_data||today(),novo:""}));
   const elig=work.filter(i=>i.entrada===true&&i.co_done&&falta(i)===0&&rec(i)>0&&i.clinica!==true);
