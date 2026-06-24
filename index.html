@@ -116,7 +116,11 @@
     <h1>Farmácia de Alto Custo</h1>
     <p>Rastreamento de medicações — Renal Brasil</p>
     <label class="fld"><span>E-mail</span><input id="email" type="email" autocomplete="username" inputmode="email"></label>
-    <label class="fld"><span>Senha</span><input id="pass" type="password" autocomplete="current-password"></label>
+    <label class="fld"><span>Senha</span>
+      <div style="position:relative">
+        <input id="pass" type="password" autocomplete="current-password" style="padding-right:78px">
+        <button type="button" id="togglePass" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);width:auto;margin:0;background:none;border:0;color:var(--blue);font-weight:700;font-size:13px;padding:6px 8px">Mostrar</button>
+      </div></label>
     <button class="btn primary" id="loginBtn">Entrar</button>
     <div id="loginErr" class="err hidden"></div>
   </div>
@@ -211,6 +215,7 @@ document.getElementById("loginBtn").onclick=async()=>{
   if(error){err.textContent="Não foi possível entrar: "+error.message;err.classList.remove("hidden");return;}
   showApp(data.session);
 };
+document.getElementById("togglePass").onclick=()=>{const p=document.getElementById("pass"),b=document.getElementById("togglePass");if(p.type==="password"){p.type="text";b.textContent="Ocultar";}else{p.type="password";b.textContent="Mostrar";}};
 document.getElementById("logoutBtn").onclick=async()=>{await sb.auth.signOut();location.reload();};
 document.getElementById("reloadBtn").onclick=load;
 document.getElementById("newBtn").onclick=()=>openForm();
