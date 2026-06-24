@@ -137,6 +137,7 @@
     <div class="counts" id="counts"></div>
     <div class="chips" id="chips"></div>
     <div class="search"><input id="q" placeholder="Buscar paciente…"></div>
+    <div id="bulkWrap" style="padding:0 14px 6px"><button id="bulkBtn" class="btn blue" style="margin-top:0">Check-out em lote (por medicação)</button></div>
   </div>
   <main id="list"></main>
   <button class="fab" id="newBtn">＋ Novo</button>
@@ -153,7 +154,8 @@ const PERMS={
   novo:["atendimento.guarulhos@renalbrasil.com.br"],
   checkin:["gilmvanso@gmail.com"],
   checkout:["gilmvanso@gmail.com"],
-  entrega:["atendimento.guarulhos@renalbrasil.com.br"]
+  entrega:["atendimento.guarulhos@renalbrasil.com.br"],
+  excluir:["atendimento.guarulhos@renalbrasil.com.br"]
 };
 function can(step){return (PERMS[step]||[]).map(x=>x.toLowerCase()).includes((meEmail||"").toLowerCase());}
 
@@ -219,10 +221,11 @@ document.getElementById("togglePass").onclick=()=>{const p=document.getElementBy
 document.getElementById("logoutBtn").onclick=async()=>{await sb.auth.signOut();location.reload();};
 document.getElementById("reloadBtn").onclick=load;
 document.getElementById("newBtn").onclick=()=>openForm();
+document.getElementById("bulkBtn").onclick=()=>openBulkCheckout();
 document.getElementById("q").addEventListener("input",e=>{search=e.target.value.toLowerCase();render();});
 document.getElementById("tabProc").onclick=()=>{view="proc";setTabs();render();};
 document.getElementById("tabHist").onclick=()=>{view="hist";setTabs();render();};
-function setTabs(){document.getElementById("tabProc").classList.toggle("on",view==="proc");document.getElementById("tabHist").classList.toggle("on",view==="hist");document.getElementById("procWrap").classList.toggle("hidden",view!=="proc");document.getElementById("newBtn").classList.toggle("hidden",!(view==="proc"&&can("novo")));}
+function setTabs(){document.getElementById("tabProc").classList.toggle("on",view==="proc");document.getElementById("tabHist").classList.toggle("on",view==="hist");document.getElementById("procWrap").classList.toggle("hidden",view!=="proc");document.getElementById("newBtn").classList.toggle("hidden",!(view==="proc"&&can("novo")));const _bw=document.getElementById("bulkWrap");if(_bw)_bw.classList.toggle("hidden",!can("checkout"));}
 function showApp(s){meEmail=(s.user.email||"");document.getElementById("login").classList.add("hidden");document.getElementById("app").classList.remove("hidden");document.getElementById("who").textContent="· "+meEmail;buildChips();setTabs();load();}
 async function load(){const {data,error}=await sb.from("processos").select("*").order("created_at",{ascending:false});if(error){toast("Erro ao carregar: "+error.message);return;}rows=data||[];render();}
 
@@ -369,10 +372,11 @@ function openDetail(id){
     <p class="sub">protocolo ${fmt(r.data_protocolo)} · ${stOf(r)}</p>
     <div class="seclabel">Medicamentos e histórico</div>${tl}
     <p class="sub" style="margin-top:10px">Dados não editáveis. Comentários são feitos nas etapas (check-in, check-out, faltantes, entrega).</p>
-    <button class="btn danger" id="delBtn">Excluir processo (cadastro errado)</button>
+    ${can("excluir")?'<button class="btn danger" id="delBtn">Excluir processo (cadastro errado)</button>':''}
     <button class="btn ghost" id="closeBtn">Fechar</button></div>`);
   scrim.querySelector("#closeBtn").onclick=()=>scrim.remove();
-  scrim.querySelector("#delBtn").onclick=async()=>{
+  const _db=scrim.querySelector("#delBtn"); if(_db)_db.onclick=async()=>{
+    if(!can("excluir")){toast("Só "+PERMS.excluir[0]+" pode excluir");return;}
     if(!confirm("Excluir este processo?"))return;
     const {error}=await sb.from("processos").delete().eq("id",id);
     if(error){toast("Erro: "+error.message);return;}
@@ -471,6 +475,59 @@ function openCheckout(id,faltantes){
     const itens=work.map(it=>{const com=it.comentarios.slice();if(it._novo)com.push({txt:it._novo,em:today()});
       return baseItem(it,{qtd_recebida:it.qtd_recebida,co_done:it.co_done,receb_data:it.receb_data,just_falta:it.just_falta,comentarios:com});});
     await salvar(id,itens,faltantes?"Faltantes atualizadas ✔":"Retirada salva ✔",scrim);
+  };
+}
+
+// ---------- CHECK-OUT EM LOTE (por medicação, todos os pacientes) ----------
+function distribuir(receb, esps){
+  const n=esps.length, res=new Array(n).fill(0); let rem=receb,i=0,g=0;
+  while(rem>0 && res.some((v,k)=>v<esps[k]) && g<200000){ if(res[i]<esps[i]){res[i]++;rem--;} i=(i+1)%n; g++; }
+  return res;
+}
+function openBulkCheckout(){
+  if(!can("checkout")){toast("Só "+PERMS.checkout[0]+" pode fazer o check-out");return;}
+  const groups={};
+  rows.forEach(r=>itensDe(r).forEach(it=>{ if(it.entrada===true&&!it.co_done){const key=it.nome.split(" — ")[0].trim();(groups[key]=groups[key]||[]).push({rowId:r.id,nome:it.nome,esp:esp(it)});} }));
+  const keys=Object.keys(groups);
+  if(!keys.length){toast("Nenhum item aguardando retirada");return;}
+  const scrim=mkScrim(`<div class="sheet"><div class="grab"></div>
+    <h2>Check-out em lote</h2><p class="sub">Recebido × esperado por medicação (todos os pacientes)</p>
+    <div id="blList"></div>
+    <button class="btn blue" id="blConfirm">Confirmar lote</button>
+    <button class="btn ghost" id="blClose">Cancelar</button></div>`);
+  const listEl=scrim.querySelector("#blList");
+  listEl.innerHTML=keys.map((k,i)=>{const tot=groups[k].reduce((s,x)=>s+x.esp,0);
+    return `<div class="citem"><div class="nm">${esc(k)}</div>
+      <div class="prev">esperado: ${tot} un · ${groups[k].length} paciente(s)</div>
+      <div class="sub2"><span>Total recebido</span><input type="number" inputmode="numeric" data-k="${i}" value="${tot}"></div>
+      <div class="sub2"><span>Data da retirada</span><input type="date" data-d="${i}" value="${today()}"></div>
+      <div class="sub2"><span>Falta coletiva — justificativa (se receber menos)</span><input data-j="${i}" placeholder="ex.: faltou na farmácia"></div>
+    </div>`;
+  }).join("");
+  scrim.querySelector("#blClose").onclick=()=>scrim.remove();
+  scrim.querySelector("#blConfirm").onclick=async()=>{
+    const assign={};
+    for(let i=0;i<keys.length;i++){
+      const k=keys[i], g=groups[k];
+      const tot=g.reduce((s,x)=>s+x.esp,0);
+      const receb=NUM(listEl.querySelector(`[data-k="${i}"]`).value);
+      const date=listEl.querySelector(`[data-d="${i}"]`).value||today();
+      const just=(listEl.querySelector(`[data-j="${i}"]`).value||"").trim();
+      if(receb<tot && !just){toast("Justifique a falta coletiva de: "+k);return;}
+      const shares=distribuir(receb,g.map(x=>x.esp));
+      g.forEach((x,idx)=>{(assign[x.rowId]=assign[x.rowId]||{})[x.nome]={q:shares[idx],date,just:(x.esp>shares[idx]?just:"")};});
+    }
+    for(const rowId of Object.keys(assign)){
+      const r=rows.find(z=>z.id===rowId); if(!r)continue;
+      const itens=itensDe(r).map(it=>{
+        const a=assign[rowId][it.nome];
+        if(a&&it.entrada===true&&!it.co_done)return baseItem(it,{qtd_recebida:a.q,co_done:true,receb_data:a.date,just_falta:a.just});
+        return baseItem(it,{});
+      });
+      const {error}=await sb.from("processos").update({itens,status:statusDe(itens)}).eq("id",rowId);
+      if(error){toast("Erro em um processo: "+error.message);return;}
+    }
+    scrim.remove();toast("Check-out em lote salvo ✔");load();
   };
 }
 
