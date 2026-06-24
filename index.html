@@ -488,19 +488,19 @@ function distribuir(receb, esps){
 function openBulkCheckout(){
   if(!can("checkout")){toast("Só "+PERMS.checkout[0]+" pode fazer o check-out");return;}
   const groups={};
-  rows.forEach(r=>itensDe(r).forEach(it=>{ if(it.entrada===true&&!it.co_done){const key=it.nome.split(" — ")[0].trim();(groups[key]=groups[key]||[]).push({rowId:r.id,nome:it.nome,esp:esp(it)});} }));
+  rows.forEach(r=>itensDe(r).forEach(it=>{ if(it.entrada===true&&falta(it)>0){const key=it.nome.split(" — ")[0].trim();(groups[key]=groups[key]||[]).push({rowId:r.id,nome:it.nome,esp:esp(it),rec:rec(it),falta:falta(it)});} }));
   const keys=Object.keys(groups);
   if(!keys.length){toast("Nenhum item aguardando retirada");return;}
   const scrim=mkScrim(`<div class="sheet"><div class="grab"></div>
-    <h2>Check-out em lote</h2><p class="sub">Recebido × esperado por medicação (todos os pacientes)</p>
+    <h2>Check-out em lote</h2><p class="sub">Inclui retiradas e faltantes — recebido por medicação (todos os pacientes)</p>
     <div id="blList"></div>
     <button class="btn blue" id="blConfirm">Confirmar lote</button>
     <button class="btn ghost" id="blClose">Cancelar</button></div>`);
   const listEl=scrim.querySelector("#blList");
-  listEl.innerHTML=keys.map((k,i)=>{const tot=groups[k].reduce((s,x)=>s+x.esp,0);
+  listEl.innerHTML=keys.map((k,i)=>{const tot=groups[k].reduce((s,x)=>s+x.falta,0);
     return `<div class="citem"><div class="nm">${esc(k)}</div>
-      <div class="prev">esperado: ${tot} un · ${groups[k].length} paciente(s)</div>
-      <div class="sub2"><span>Total recebido</span><input type="number" inputmode="numeric" data-k="${i}" value="${tot}"></div>
+      <div class="prev">a receber: ${tot} un · ${groups[k].length} paciente(s)</div>
+      <div class="sub2"><span>Total recebido agora</span><input type="number" inputmode="numeric" data-k="${i}" value="${tot}"></div>
       <div class="sub2"><span>Data da retirada</span><input type="date" data-d="${i}" value="${today()}"></div>
       <div class="sub2"><span>Falta coletiva — justificativa (se receber menos)</span><input data-j="${i}" placeholder="ex.: faltou na farmácia"></div>
     </div>`;
@@ -510,19 +510,19 @@ function openBulkCheckout(){
     const assign={};
     for(let i=0;i<keys.length;i++){
       const k=keys[i], g=groups[k];
-      const tot=g.reduce((s,x)=>s+x.esp,0);
+      const tot=g.reduce((s,x)=>s+x.falta,0);
       const receb=NUM(listEl.querySelector(`[data-k="${i}"]`).value);
       const date=listEl.querySelector(`[data-d="${i}"]`).value||today();
       const just=(listEl.querySelector(`[data-j="${i}"]`).value||"").trim();
       if(receb<tot && !just){toast("Justifique a falta coletiva de: "+k);return;}
-      const shares=distribuir(receb,g.map(x=>x.esp));
-      g.forEach((x,idx)=>{(assign[x.rowId]=assign[x.rowId]||{})[x.nome]={q:shares[idx],date,just:(x.esp>shares[idx]?just:"")};});
+      const shares=distribuir(receb,g.map(x=>x.falta));
+      g.forEach((x,idx)=>{const novo=x.rec+shares[idx];(assign[x.rowId]=assign[x.rowId]||{})[x.nome]={q:novo,date,just:(x.esp>novo?just:"")};});
     }
     for(const rowId of Object.keys(assign)){
       const r=rows.find(z=>z.id===rowId); if(!r)continue;
       const itens=itensDe(r).map(it=>{
         const a=assign[rowId][it.nome];
-        if(a&&it.entrada===true&&!it.co_done)return baseItem(it,{qtd_recebida:a.q,co_done:true,receb_data:a.date,just_falta:a.just});
+        if(a&&it.entrada===true)return baseItem(it,{qtd_recebida:a.q,co_done:true,receb_data:a.date,just_falta:a.just});
         return baseItem(it,{});
       });
       const {error}=await sb.from("processos").update({itens,status:statusDe(itens)}).eq("id",rowId);
